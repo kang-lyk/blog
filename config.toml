@@ -4,6 +4,8 @@ languageCode = "zh-CN"
 title = "枯木逢春犹再发，人无两度再少年"
 theme = "sugoi"
 
+publishdir = "docs"
+
 [menu]
     [[menu.nav]]
         name = "首页"

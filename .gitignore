@@ -2,6 +2,7 @@
 
 # 生成后的目录
 /public
+/docs
 # Editor directories and files
 .idea
 .vscode

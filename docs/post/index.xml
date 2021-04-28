@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 枯木逢春犹再发，人无两度再少年</title>
+    <link>https://kang-lyk.github.io/blog/post/</link>
+    <description>Recent content in Posts on 枯木逢春犹再发，人无两度再少年</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 28 Apr 2021 11:20:45 +0800</lastBuildDate>
+    
+	<atom:link href="https://kang-lyk.github.io/blog/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title> 这个博客的第一篇文章</title>
+      <link>https://kang-lyk.github.io/blog/post/firstpost/</link>
+      <pubDate>Wed, 28 Apr 2021 11:20:45 +0800</pubDate>
+      
+      <guid>https://kang-lyk.github.io/blog/post/firstpost/</guid>
+      <description>这个博客的第一篇文章的标题 </description>
+    </item>
+    
+  </channel>
+</rss>

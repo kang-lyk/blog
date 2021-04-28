@@ -1,0 +1,17 @@
+.DS_Store
+
+# 生成后的目录
+/public
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/

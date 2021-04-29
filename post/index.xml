@@ -6,18 +6,19 @@
     <description>Recent content in Posts on 枯木逢春犹再发，人无两度再少年</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 28 Apr 2021 11:20:45 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 28 Feb 2020 06:20:45 +0800</lastBuildDate>
     
 	<atom:link href="https://kang-lyk.github.io/blog/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title> 这个博客的第一篇文章</title>
-      <link>https://kang-lyk.github.io/blog/post/firstpost/</link>
-      <pubDate>Wed, 28 Apr 2021 11:20:45 +0800</pubDate>
+      <title>从Promise到async和await</title>
+      <link>https://kang-lyk.github.io/blog/post/2020/1004/</link>
+      <pubDate>Fri, 28 Feb 2020 06:20:45 +0800</pubDate>
       
-      <guid>https://kang-lyk.github.io/blog/post/firstpost/</guid>
-      <description>这个博客的第一篇文章的标题 </description>
+      <guid>https://kang-lyk.github.io/blog/post/2020/1004/</guid>
+      <description>Promise 是ES6异步编程的一种解决方案,js传统的回调函数和事件更合理更强大。es7标准引入了asyn / await函数使得异步操作更加方便。
+asyn函数就是 Generator 函数的语法糖。 Generator 语法行为与传统函数完全不同，不容易理解，本文直接会直播跳过 Generator 讲asyn.</description>
     </item>
     
   </channel>

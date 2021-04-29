@@ -3,8 +3,8 @@ languageCode = "zh-CN"
 #title = ""
 title = "枯木逢春犹再发，人无两度再少年"
 theme = "sugoi"
-
-publishdir = "docs"
+# 输出目录
+publishdir = "../blog_gh-pages"
 
 [menu]
     [[menu.nav]]

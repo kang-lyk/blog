@@ -55,7 +55,7 @@
         
         
         <i class="far fa-calendar"></i> Published On: 2020-02-28,
-        <i class="far fa-clock"></i> Reading Time: 1 minute
+        <i class="far fa-clock"></i> Reading Time: 3 minutes
         </h6>
     </div>
 </div>
@@ -63,8 +63,215 @@
 <div class="section main">
     <div class="row content">
         <article>
-            <p>Promise 是ES6异步编程的一种解决方案,js传统的回调函数和事件更合理更强大。es7标准引入了asyn / await函数使得异步操作更加方便。</p>
-<p>asyn函数就是 <a href="https://es6.ruanyifeng.com/#docs/generator">Generator</a> 函数的语法糖。 <a href="https://es6.ruanyifeng.com/#docs/generator">Generator</a> 语法行为与传统函数完全不同，不容易理解，本文直接会直播跳过 Generator 讲asyn.</p>
+            <p>Promise 是ES6异步编程的一种解决方案,js传统的回调函数和事件更合理更强大。es7标准引入了async/ await函数使得异步操作更加方便。async函数就是 <a href="https://es6.ruanyifeng.com/#docs/generator">Generator</a> 函数的语法糖。 <a href="https://es6.ruanyifeng.com/#docs/generator">Generator</a> 语法行为与传统函数完全不同，不容易理解，本文直接会直播跳过 Generator 讲asyn / await。</p>
+<h2 id="promise的使用方法">Promise的使用方法</h2>
+<p><code>Promise</code> 对象是一个构造函数，用来生成 Promise 实例，如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">promise</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Promise(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">reject</span>) {
+    <span style="color:#75715e">// ... some code
+</span><span style="color:#75715e"></span>
+  <span style="color:#66d9ef">if</span> (<span style="color:#75715e">/* 异步操作成功 */</span>){
+		<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">value</span>)
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#a6e22e">reject</span>(<span style="color:#a6e22e">error</span>)
+  }
+})
+</code></pre></div><p><code>resolve</code> 在异步操作成功时调用,并将异步操作报出的结果作为参数传递出去。</p>
+<p><code>reject</code> 在异步操作失败时调用，并将异步操作报出的错误作为参数传递出去。</p>
+<p><code>Promise</code> 对像的使用方法如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">promise</span>.<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">value</span>) {
+  <span style="color:#75715e">// success
+</span><span style="color:#75715e"></span>}, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">error</span>) {
+  <span style="color:#75715e">// failure
+</span><span style="color:#75715e"></span>});
+</code></pre></div><p>把jq的ajax函数传成Promise对象。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">getList</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">option</span>) {
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">reject</span>) =&gt; {
+      <span style="color:#a6e22e">$</span>.<span style="color:#a6e22e">ajax</span>({
+        <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;/api/news/list&#39;</span>,
+        <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">option</span>,
+        <span style="color:#a6e22e">success</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">data</span>) {
+          <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">data</span>)
+        },
+        <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">error</span>) {
+          <span style="color:#a6e22e">reject</span>(<span style="color:#a6e22e">error</span>)
+        }
+      })
+  })
+}
+</code></pre></div><p>使用方法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// 第一种写法
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">getList</span>({<span style="color:#a6e22e">page</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">limit</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>})
+	.<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">data</span>) =&gt; {
+		<span style="color:#75715e">// success
+</span><span style="color:#75715e"></span>	})
+	.<span style="color:#66d9ef">catch</span>((<span style="color:#a6e22e">error</span>) =&gt; {
+		<span style="color:#75715e">// failure 
+</span><span style="color:#75715e"></span>	})
+
+<span style="color:#75715e">// 第二种写法
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">getList</span>({<span style="color:#a6e22e">page</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">limit</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>})
+	.<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">data</span>) =&gt; {
+		<span style="color:#75715e">// success
+</span><span style="color:#75715e"></span>	}, (<span style="color:#a6e22e">error</span>) =&gt; {
+		<span style="color:#75715e">// failure 
+</span><span style="color:#75715e"></span>	})
+</code></pre></div><p>也可以在then中返回一新的Promise串行使用,避免了回调</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">getList</span>({<span style="color:#a6e22e">page</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">limit</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>})
+	.<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">data</span>) =&gt; {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">getList</span>({<span style="color:#a6e22e">page</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">limit</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>})
+	})
+	.<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">data</span>) =&gt; {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">getList</span>({<span style="color:#a6e22e">page</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">3</span>, <span style="color:#a6e22e">limit</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>})
+	})
+	.<span style="color:#66d9ef">catch</span>((<span style="color:#a6e22e">error</span>) =&gt; {
+		<span style="color:#75715e">// failure 
+</span><span style="color:#75715e"></span>	})
+</code></pre></div><h2 id="promise的状态">Promise的状态</h2>
+<p>每个<code>Promise</code>对象代表一个异步操作，有三种状态：<code>pending</code>（进行中）、<code>fulfilled</code>（已成功）和<code>rejected</code>（已失败）。 <strong>每个状态只会出来一次</strong>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">promise</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">reject</span>) =&gt; {
+  <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#39;第一次resolve&#39;</span>)
+  <span style="color:#a6e22e">conole</span>.<span style="color:#a6e22e">log</span>(<span style="color:#ae81ff">1</span>)
+  <span style="color:#a6e22e">reject</span>(<span style="color:#e6db74">&#39;error&#39;</span>)
+  <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#39;第二次resolve&#39;</span>)
+})
+
+<span style="color:#a6e22e">promise</span>.<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">res</span>) =&gt; {
+	<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">res</span>)
+})
+.<span style="color:#66d9ef">catch</span>((<span style="color:#a6e22e">error</span>) =&gt; {
+  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">error</span>)
+})
+
+<span style="color:#75715e">// 运行结果
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">1</span>
+<span style="color:#e6db74">&#39;第一次resolve&#39;</span>
+</code></pre></div><p>这段代码里promise初始状态为pending,在函数体里resolve指它重置为fulfilled状态，每个状态只能出现有一次，所以后面的resovle和reject都无法生效。</p>
+<p>Promise.resolve()`等价于下面的写法:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">Promise.<span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#39;foo&#39;</span>)
+<span style="color:#75715e">// 等价于
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">new</span> Promise(<span style="color:#a6e22e">resolve</span> =&gt; <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#39;foo&#39;</span>))
+</code></pre></div><p><strong>Promise值穿透问题</strong>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">Promise.<span style="color:#a6e22e">resolve</span>(<span style="color:#ae81ff">1</span>)
+	.<span style="color:#a6e22e">then</span>(Promise.<span style="color:#a6e22e">resolve</span>(<span style="color:#ae81ff">2</span>))
+	.<span style="color:#a6e22e">then</span>(<span style="color:#ae81ff">3</span>)
+	.<span style="color:#a6e22e">then</span>()
+	.<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>)
+
+<span style="color:#75715e">// 运行结果
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">1</span>
+</code></pre></div><p>then方法只允许我们传两个参数：onFulfilled(成功状态处理函数)和onRejected(失败状态的处理函数)。可以两者都传，但只能是函数，其他东西then认为是无效的，所以出现值穿透现象。</p>
+<p>将代码改造一下，就不会出现穿透现象了。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">promise</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">data</span>){
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">reject</span>) =&gt; {
+    <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">data</span>)
+	})
+} 
+
+<span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">1</span>)
+  .<span style="color:#a6e22e">then</span>(() =&gt; {
+  	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">2</span>)
+	})
+	.<span style="color:#a6e22e">then</span>(() =&gt; {
+  	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">3</span>)
+	})
+	.<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>)
+</code></pre></div><h2 id="async函数">async函数</h2>
+<p>async与await的用法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">promise</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">num</span>){
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">reject</span>) =&gt; {
+    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">num</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">10</span>) {
+      <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">num</span>)
+    } <span style="color:#66d9ef">else</span> {
+      <span style="color:#a6e22e">reject</span>(<span style="color:#e6db74">&#39;error&#39;</span>)
+    }
+	})
+} 
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span>() {
+  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
+  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;await之后&#39;</span>)
+}
+
+<span style="color:#a6e22e">fun</span>()
+</code></pre></div><p>通上述代码可知 async函数中的代码一旦遇到<code>await</code>就会先返回，等到异步操作完成，再接着执行函数体内打到车面的说语句。</p>
+<ul>
+<li><code>await</code> 后面必须是个<code>Promise</code>对象</li>
+<li>如果函数前面不加关键字 <code>async</code>那<code>await</code>将无法使用</li>
+</ul>
+<p><code>async</code>函数语法上规则总体比较简单，难点是错误处理机制。下面修改上述的<code>fun</code>函数对介绍几种错误处理机制。</p>
+<p>方法一：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span>() {
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
+}
+
+<span style="color:#a6e22e">fun</span>()
+	.<span style="color:#a6e22e">then</span>(() =&gt; {
+  	<span style="color:#75715e">// do some thing
+</span><span style="color:#75715e"></span>	})
+	.<span style="color:#66d9ef">catch</span>((<span style="color:#a6e22e">error</span>) =&gt; {
+  	<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">error</span>)
+	})
+</code></pre></div><p>方法二：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span>() {
+  <span style="color:#66d9ef">try</span> {
+    <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
+  	<span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">9</span>)
+  } <span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">e</span>) {
+    <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;出错了&#39;</span>);
+  }
+}
+
+<span style="color:#a6e22e">fun</span>()
+</code></pre></div><p>方法三：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span>() {
+	<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">num0</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
+  	.<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">data</span> =&gt; <span style="color:#a6e22e">data</span>)
+  	.<span style="color:#66d9ef">catch</span>(() =&gt; {
+    	<span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;出错了&#39;</span>);
+  }) 
+	<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">num1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">9</span>)
+  	.<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">data</span> =&gt; <span style="color:#a6e22e">data</span>)
+  	.<span style="color:#66d9ef">catch</span>(() =&gt; {
+    	<span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;出错了&#39;</span>);
+  })
+  <span style="color:#66d9ef">return</span> {<span style="color:#a6e22e">num0</span>, <span style="color:#a6e22e">num1</span>}
+}
+
+<span style="color:#a6e22e">fun</span>()
+	.<span style="color:#a6e22e">then</span>(({<span style="color:#a6e22e">num0</span>, <span style="color:#a6e22e">num1</span>}) =&gt; {
+  	<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">num0</span>, <span style="color:#a6e22e">num1</span>)
+	})
+	.<span style="color:#66d9ef">catch</span>((<span style="color:#a6e22e">error</span>) =&gt; {
+  	<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">error</span>)
+	})
+</code></pre></div><p>上面几种方法都不灵活，下面推荐<strong>终极解决文案</strong> <code>await to</code></p>
+<p>原理很简单，就是返回两个值</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span>() {
+	<span style="color:#66d9ef">let</span> [<span style="color:#a6e22e">error</span>, <span style="color:#a6e22e">data</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
+  	.<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">num</span> =&gt; [<span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">num</span>])
+  	.<span style="color:#66d9ef">catch</span>((<span style="color:#a6e22e">error</span>) =&gt; [<span style="color:#a6e22e">error</span>, <span style="color:#66d9ef">null</span>]) 
+}
+
+</code></pre></div><p>数组第一个元素是错误信息，第二个是需要的数据。这也类似<code>go</code>语言的错误处理方式。</p>
+<p>这个方法也被人封装成<a href="https://github.com/scopsy/await-to-js">await-to.js</a></p>
+<p><code>npm i await-to-js</code>安装之后</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./to.js&#39;</span>;
+
+<span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">asyncTask</span>() {
+     <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">savedTask</span>;
+
+     [<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">user</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">to</span>(<span style="color:#a6e22e">UserModel</span>.<span style="color:#a6e22e">findById</span>(<span style="color:#ae81ff">1</span>));
+     <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">user</span>) <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">CustomerError</span>(<span style="color:#e6db74">&#39;No user found&#39;</span>);
+
+     [<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">savedTask</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">to</span>(<span style="color:#a6e22e">TaskModel</span>({<span style="color:#a6e22e">userId</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Demo Task&#39;</span>}));
+     <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">err</span>) <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">CustomError</span>(<span style="color:#e6db74">&#39;Error occurred while saving task&#39;</span>);
+
+    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">notificationsEnabled</span>) {
+       <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">err</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">to</span>(<span style="color:#a6e22e">NotificationService</span>.<span style="color:#a6e22e">sendNotification</span>(<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">id</span>, <span style="color:#e6db74">&#39;Task Created&#39;</span>));  
+       <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;Just log the error and continue flow&#39;</span>);
+    }
+}
+</code></pre></div><p>与其他处理方式相比明显更优雅，<a href="https://github.com/scopsy/await-to-js">await-to.js</a>源码很少，不想安装自己写一个也是可以的。</p>
 
             
         </article>

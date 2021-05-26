@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+<title>用verdaccio搭建npm私服 - 枯木逢春犹再发，人无两度再少年</title>
+<meta name="description"
+    content="">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/normalize.css">
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/skeleton.css">
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/custom.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+
+
+
+
+</head>
+    <body><nav>
+    <label for="drop" class="toggle"><i class="fas fa-bars u-pull-right" aria-hidden="true"></i> <span><i
+                class="fas fa-fire" aria-hidden="true"></i>
+            枯木</span></label>
+    <input type="checkbox" id="drop" />
+    <ul class="menu">
+        <li><a href="https://kang-lyk.github.io/blog/"><span><i class="fas fa-fire" aria-hidden="true"></i>
+                    枯木</span></a></li>
+        
+        <li class="u-pull-right">
+            <a href="https://kang-lyk.github.io/blog/post" class="Members">
+                <span> 博文</span>
+            </a>
+        </li>
+        
+        <li class="u-pull-right">
+            <a href="https://kang-lyk.github.io/blog/" class="Members">
+                <span> 首页</span>
+            </a>
+        </li>
+        
+    </ul>
+</nav>
+
+<div class="section hero">
+    <div class="container">
+        <h1 class="section-heading">用verdaccio搭建npm私服</h1>
+        
+        
+        
+        <i class="far fa-calendar"></i> Published On: 2020-10-06,
+        <i class="far fa-clock"></i> Reading Time: 1 minute
+        </h6>
+    </div>
+</div>
+
+<div class="section main">
+    <div class="row content">
+        <article>
+            <h2 id="为什么要搭建npm私服">为什么要搭建npm私服</h2>
+<p>npm服务器在国外，国内访问比较慢。虽然有可以代理到淘宝镜像，但有了npm私服后已下包过的包会缓存在公司服务器的npm私服中，获得更快的速度。</p>
+<p>公司有些代码不想公开的就需要发npm私包，但那是要收费的，国内公司无法付美元。</p>
+<p>这个时候搭一个npm私服就成了不二选择。</p>
+<h2 id="安装">安装</h2>
+<p>全局安装</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yarn add verdaccio -g
+</code></pre></div><p>或</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm i verdaccio -g
+</code></pre></div><p>局部安装</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yarn add verdaccio -s
+</code></pre></div><p>或</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm i verdaccio -s
+</code></pre></div><h2 id="启动">启动</h2>
+<p>已全安装的直接启动</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">verdaccio
+</code></pre></div><p>如果是局部安装可以在根目录用<code>npx</code>启动</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npx verdaccio
+</code></pre></div><p>不想每次都进入根目录后再用npx调用可以把verdaccio的安装目录添加到环境变量中去。</p>
+<p>启动之后可以通过ip访问http://192.168.3.112:4873 在浏览器直接访问</p>
+<h2 id="发布npm包">发布npm包</h2>
+<p>把源改为已安装的私服</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm set registry http://192.168.3.112:4873 
+</code></pre></div><p>或直接找到<code>.npmrc</code>文件进行修改</p>
+<p><code>registry=http://localhost:4873</code></p>
+<p>推荐使用<code>nvm</code>控制</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nrm add myNpm http://192.168.3.112:4873 
+nrm use myNpm
+</code></pre></div><p>注册帐号，依次输入用户名和密码</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm adduser
+</code></pre></div><p>登录,输入用户名密码</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm login
+</code></pre></div><p>发布包，在项目的根目录运行</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm publish
+</code></pre></div><p>如果没有修改源可以修改项目根目录的<code>package.josn</code>文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;publishConfig&#34;</span>: {
+    <span style="color:#f92672">&#34;registry&#34;</span>: <span style="color:#e6db74">&#34;http://192.168.3.112:4873&#34;</span>
+  }
+}
+</code></pre></div><h2 id="配置">配置</h2>
+<p>在启动<code>verdaccio</code>时会打印出一些信息，基中包含配置文件地址</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; verdaccio
+warn --- config file  - /home/.config/verdaccio/config.yaml
+</code></pre></div><p>可以打开<code>config.yaml</code>进行修改，完成后重启<code>verdaccio</code></p>
+<h3 id="主要的配置参数">主要的配置参数</h3>
+<p>文件模式存储,从网上已下载过的包和自己发布的包都会存到这个目录，所以已安装过的包再安装会快得飞起</p>
+<p><code>storage: ./storage</code></p>
+<p>插件目录，用Docker/Kubernetes布置时用得到</p>
+<p><code>plugins: ./plugins</code></p>
+<p>配置WEB UI界面</p>
+<pre><code>web:
+  title: Verdaccio
+  # comment out to disable gravatar support
+  # gravatar: false
+  # 包的排序 (asc|desc)
+  # sort_packages: asc
+</code></pre><p>设置用户验证的文件</p>
+<pre><code>auth:
+  htpasswd:
+    file: ./htpasswd
+    # 注册用户的最大数量
+    # 你可以设置-1来禁止注册
+    # max_users: 1000
+</code></pre><p>公有仓库配置 ，用哪一个要看下一项proxy的配置</p>
+<pre><code>uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+  cnpm:
+    url: http://registry.cnpmjs.org/
+  taobao:
+    url: https://registry.npm.taobao.org/
+</code></pre><p>配置权限管理</p>
+<pre><code>packages:
+	'@*/*':
+		# 表示哪一类用户可以对匹配的项目进行安装 
+		
+    # $all 表示所有人都可以执行对应的操作，
+    
+    # $authenticated 表示只有通过验证的人可以执行对应操作，
+    
+    # $anonymous 表示只有匿名者可以进行对应操作（通常无用）
+    
+    # 直接写用户名也是可以的
+    access: $all
+    # 表示哪一类用户可以对匹配的项目进行发布
+    publish: $authenticated
+
+  '*':
+    #表示哪一类用户可以对匹配的项目进行安装
+    access: $all
+
+    #表示哪一类用户可以对匹配的项目进行发布
+    publish: $authenticated
+    
+    # 如果一个npm包不存在，它会去询问设置的代理。
+    proxy: taobao
+	  #日志输出设置
+	logs:
+
+  - {type: stdout, format: pretty, level: http}
+  - {type: file, path: verdaccio.log, level: info}
+
+	# 修改监听的端口
+	listen: 0.0.0.0:4873  
+
+</code></pre><h2 id="用pm2部署">用pm2部署</h2>
+<p>启动verdaccio</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pm2 start verdaccio
+</code></pre></div><p>保存程序</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pm2 save
+</code></pre></div><p>把启动服务加到系统中</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pm2 startup
+</code></pre></div><p>这样机器重启也会自启动</p>
+<p>更多部署方式请查看 <a href="https://verdaccio.org/">verdaccio官网</a></p>
+
+            
+        </article>
+    </div>
+</div>
+
+<footer>
+    <span class="copyright">
+         &copy; 2021 
+        <a href="https://github.com/aanupam23/hugo-sugoi" title="hugo-sugoi" alt="hugo-sugoi" target="_blank">Hugo-Sugoi</a>
+    </span>
+</footer></body>
+</html>

@@ -71,21 +71,56 @@
       </h4>
       <p class="card-text">npx是node自带的强大命令工具 调试安装模块 项目已经安装了ESlint npm i eslint -S 但未全局安装只能在项目根目录下的package.json文件中scripts字段时写命令。
 如果想对单个文件制行ESLint命令, eslint file.js又不想全局安装，可以在已安装项目跟目录进行
-npx eslint file.js
-npx会找到根目录下的node_modules/.bin/eslint
+npx eslint file.js npx会找到根目录下的node_modules/.bin/eslint
 避免全局安装模块 npx 可以包下载到临时目录使用，然后自动删除例如：
-npx uglify-js@3.1.0 main.js -o ./dist/main.js
-使用其他版本的node.js 利用npx的特性，可以使用多个node.js
+npx uglify-js@3.1.0 main.js -o ./dist/main.js 使用其他版本的node.js 利用npx的特性，可以使用多个node.js
 npx node@10 -v v10.24.1 与下文中nvm不同的是npx是“使用”而不是“安装”，npx命令完成后会把包从临时目录删除下次无法继续使用。
-执行github源码  # 执行 Gist 代码 $ npx https://gist.github.com/zkat/4bc19503fe9e9309e2bfaa2c58074d32 # 执行仓库代码 $ npx github:piuccio/cowsay hello -p和-c参数 **-p用于安装多个模块 **
-npx -p gulp -p eslint
--c用于安装多个模块时将所有命令都用 npx 解释
+执行github源码 # 执行 Gist 代码 $ npx https://gist.github.com/zkat/4bc19503fe9e9309e2bfaa2c58074d32 # 执行仓库代码 $ npx github:piuccio/cowsay hello -p和-c参数 **-p用于安装多个模块 **
+npx -p gulp -p eslint -c用于安装多个模块时将所有命令都用 npx 解释
 以下的写完会报错
-npx -p gulp -p eslint 'gulp | eslint'
-可以换成
-npx -p gulp -p eslint -c 'gulp | eslint'</p>
+npx -p gulp -p eslint &#39;gulp | eslint&#39; 可以换成
+npx -p gulp -p eslint -c &#39;gulp | eslint&#39; nvm 可以让你要一台机器安装多个版本node.</p>
       <div class="row">
         <div class="six columns"><a class="button" href="https://kang-lyk.github.io/blog/post/2020/1021/">Read More</a></div>
+        <div class="six columns">
+          <div class="u-pull-right"> <i class=""></i>
+            <span class="category">
+              
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="nine columns"> <i class="far fa-calendar"></i> 2020-10-06</div>
+        <div class="three columns"> <i class="far fa-clock"></i> Reading Time: 1
+          minute</div>
+      </div>
+      <h4>
+        <a href="https://kang-lyk.github.io/blog/post/2020/1006/" class="h5 d-block my-3">用verdaccio搭建npm私服</a>
+      </h4>
+      <p class="card-text">为什么要搭建npm私服 npm服务器在国外，国内访问比较慢。虽然有可以代理到淘宝镜像，但有了npm私服后已下包过的包会缓存在公司服务器的npm私服中，获得更快的速度。
+公司有些代码不想公开的就需要发npm私包，但那是要收费的，国内公司无法付美元。
+这个时候搭一个npm私服就成了不二选择。
+安装 全局安装
+yarn add verdaccio -g 或
+npm i verdaccio -g 局部安装
+yarn add verdaccio -s 或
+npm i verdaccio -s 启动 已全安装的直接启动
+verdaccio 如果是局部安装可以在根目录用npx启动
+npx verdaccio 不想每次都进入根目录后再用npx调用可以把verdaccio的安装目录添加到环境变量中去。
+启动之后可以通过ip访问http://192.168.3.112:4873 在浏览器直接访问
+发布npm包 把源改为已安装的私服
+npm set registry http://192.168.3.112:4873 或直接找到.npmrc文件进行修改
+registry=http://localhost:4873
+推荐使用nvm控制
+nrm add myNpm http://192.168.3.112:4873 nrm use myNpm 注册帐号，依次输入用户名和密码
+npm adduser 登录,输入用户名密码
+npm login 发布包，在项目的根目录运行
+npm publish 如果没有修改源可以修改项目根目录的package.josn文件
+{ &#34;publishConfig&#34;: { &#34;registry&#34;: &#34;http://192.168.3.112:4873&#34; } } 配置 在启动verdaccio时会打印出一些信息，基中包含配置文件地址
+$&gt; verdaccio warn --- config file - /home/.</p>
+      <div class="row">
+        <div class="six columns"><a class="button" href="https://kang-lyk.github.io/blog/post/2020/1006/">Read More</a></div>
         <div class="six columns">
           <div class="u-pull-right"> <i class=""></i>
             <span class="category">

@@ -62,6 +62,39 @@
       
       
       <div class="row">
+        <div class="nine columns"> <i class="far fa-calendar"></i> 2020-10-21</div>
+        <div class="three columns"> <i class="far fa-clock"></i> Reading Time: 2
+          </div>
+      </div>
+      <h4>
+        <a href="https://kang-lyk.github.io/blog/post/2020/1021/" class="h5 d-block my-3">node.js常用的工具npx、nvm、nrm、pm2</a>
+      </h4>
+      <p class="card-text">npx是node自带的强大命令工具 调试安装模块 项目已经安装了ESlint npm i eslint -S 但未全局安装只能在项目根目录下的package.json文件中scripts字段时写命令。
+如果想对单个文件制行ESLint命令, eslint file.js又不想全局安装，可以在已安装项目跟目录进行
+npx eslint file.js
+npx会找到根目录下的node_modules/.bin/eslint
+避免全局安装模块 npx 可以包下载到临时目录使用，然后自动删除例如：
+npx uglify-js@3.1.0 main.js -o ./dist/main.js
+使用其他版本的node.js 利用npx的特性，可以使用多个node.js
+npx node@10 -v v10.24.1 与下文中nvm不同的是npx是“使用”而不是“安装”，npx命令完成后会把包从临时目录删除下次无法继续使用。
+执行github源码  # 执行 Gist 代码 $ npx https://gist.github.com/zkat/4bc19503fe9e9309e2bfaa2c58074d32 # 执行仓库代码 $ npx github:piuccio/cowsay hello -p和-c参数 **-p用于安装多个模块 **
+npx -p gulp -p eslint
+-c用于安装多个模块时将所有命令都用 npx 解释
+以下的写完会报错
+npx -p gulp -p eslint 'gulp | eslint'
+可以换成
+npx -p gulp -p eslint -c 'gulp | eslint'</p>
+      <div class="row">
+        <div class="six columns"><a class="button" href="https://kang-lyk.github.io/blog/post/2020/1021/">Read More</a></div>
+        <div class="six columns">
+          <div class="u-pull-right"> <i class=""></i>
+            <span class="category">
+              
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
         <div class="nine columns"> <i class="far fa-calendar"></i> 2020-02-28</div>
         <div class="three columns"> <i class="far fa-clock"></i> Reading Time: 3
           minutes</div>

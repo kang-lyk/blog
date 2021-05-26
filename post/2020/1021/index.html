@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+<title>node.js常用的工具npx、nvm、nrm、pm2 - 枯木逢春犹再发，人无两度再少年</title>
+<meta name="description"
+    content="">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/normalize.css">
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/skeleton.css">
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/custom.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+
+
+
+
+</head>
+    <body><nav>
+    <label for="drop" class="toggle"><i class="fas fa-bars u-pull-right" aria-hidden="true"></i> <span><i
+                class="fas fa-fire" aria-hidden="true"></i>
+            枯木</span></label>
+    <input type="checkbox" id="drop" />
+    <ul class="menu">
+        <li><a href="https://kang-lyk.github.io/blog/"><span><i class="fas fa-fire" aria-hidden="true"></i>
+                    枯木</span></a></li>
+        
+        <li class="u-pull-right">
+            <a href="https://kang-lyk.github.io/blog/post" class="Members">
+                <span> 博文</span>
+            </a>
+        </li>
+        
+        <li class="u-pull-right">
+            <a href="https://kang-lyk.github.io/blog/" class="Members">
+                <span> 首页</span>
+            </a>
+        </li>
+        
+    </ul>
+</nav>
+
+<div class="section hero">
+    <div class="container">
+        <h1 class="section-heading">node.js常用的工具npx、nvm、nrm、pm2</h1>
+        
+        
+        
+        <i class="far fa-calendar"></i> Published On: 2020-10-21,
+        <i class="far fa-clock"></i> Reading Time: 2 minutes
+        </h6>
+    </div>
+</div>
+
+<div class="section main">
+    <div class="row content">
+        <article>
+            <h2 id="npx是node自带的强大命令工具">npx是node自带的强大命令工具</h2>
+<h3 id="调试安装模块">调试安装模块</h3>
+<p>项目已经安装了<code>ESlint</code> <code>npm i eslint -S</code> 但未全局安装只能在项目根目录下的<code>package.json</code>文件中<code>scripts</code>字段时写命令。</p>
+<p>如果想对单个文件制行<code>ESLint</code>命令, <code>eslint file.js</code>又不想全局安装，可以在已安装项目跟目录进行</p>
+<p><code>npx eslint file.js</code></p>
+<p>npx会找到根目录下的<code>node_modules/.bin/eslint</code></p>
+<h3 id="避免全局安装模块">避免全局安装模块</h3>
+<p><code>npx</code> 可以包下载到临时目录使用，然后自动删除例如：</p>
+<p><code>npx uglify-js@3.1.0 main.js -o ./dist/main.js</code></p>
+<h3 id="使用其他版本的nodejs">使用其他版本的node.js</h3>
+<p>利用<code>npx</code>的特性，可以使用多个node.js</p>
+<pre><code>npx node@10 -v
+
+v10.24.1
+</code></pre><p>与下文中<code>nvm</code>不同的是<code>npx</code>是“使用”而不是“安装”，<code>npx</code>命令完成后会把包从临时目录删除下次无法继续使用。</p>
+<h3 id="执行github源码">执行github源码</h3>
+<pre><code>
+# 执行 Gist 代码
+$ npx https://gist.github.com/zkat/4bc19503fe9e9309e2bfaa2c58074d32
+
+# 执行仓库代码
+$ npx github:piuccio/cowsay hello
+</code></pre><h3 id="-p和-c参数">-p和-c参数</h3>
+<p>**-p用于安装多个模块 **</p>
+<p><code>npx -p gulp -p eslint</code></p>
+<p><strong>-c用于安装多个模块时将所有命令都用 npx 解释</strong></p>
+<p>以下的写完会报错</p>
+<p><code>npx -p gulp -p eslint 'gulp | eslint'</code></p>
+<p>可以换成</p>
+<p><code>npx -p gulp -p eslint -c 'gulp | eslint'</code></p>
+<h2 id="nvm-可以让你要一台机器安装多个版本nodejs">nvm 可以让你要一台机器安装多个版本node.js</h2>
+<h3 id="安装">安装</h3>
+<p><code>curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash</code></p>
+<p>或者</p>
+<p><code>wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash</code></p>
+<p>修改环境变量,将面的代代码加到文件<code>~/.bash_profile</code>, <code>~/.zshrc</code>, <code>~/.profile</code>, ~/.bashrc`中，加一个就可以了。</p>
+<pre><code>export NVM_DIR=&quot;$([ -z &quot;${XDG_CONFIG_HOME-}&quot; ] &amp;&amp; printf %s &quot;${HOME}/.nvm&quot; || printf %s &quot;${XDG_CONFIG_HOME}/nvm&quot;)&quot;
+[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; \. &quot;$NVM_DIR/nvm.sh&quot;
+</code></pre><p>如果使windows系统可以使用其他工具如：</p>
+<ul>
+<li><a href="https://github.com/coreybutler/nvm-windows">nvm-windows</a></li>
+<li><a href="https://github.com/marcelklehr/nodist">nodist</a></li>
+<li><a href="https://github.com/jasongin/nvs">nvs</a></li>
+</ul>
+<h3 id="使用">使用</h3>
+<p>安装node.js</p>
+<pre><code>nvm install node # &quot;node&quot; is an alias for the latest version
+</code></pre><p>安装指定版本的node.js</p>
+<pre><code>nvm install 6.14.4 # or 10.10.0, 8.9.1, etc
+</code></pre><p>列表出可以用的node.js远程版本</p>
+<pre><code>nvm ls-remote
+</code></pre><p>列表已安装的node.js版本</p>
+<pre><code>mvm ls
+</code></pre><p>切换已安装的node.js</p>
+<pre><code>nvm use 10.10.0
+</code></pre><p>运行已安装的node.js</p>
+<pre><code>nvm run node --version
+</code></pre><p>更多<code>nmv</code>命令可以运行<code>nvm --help</code>查看</p>
+<h2 id="nrm管理npm源">nrm管理npm源</h2>
+<p>安装</p>
+<pre><code> npm install -g nrm
+</code></pre><p>添加npm源</p>
+<pre><code>nrm add taobao https://registry.npm.taobao.org/
+</code></pre><p>列表已添加的npm源</p>
+<pre><code> nrm ls
+
+* npm ------- https://registry.npmjs.org/
+  yarn ------ https://registry.yarnpkg.com
+  tencent --- https://mirrors.cloud.tencent.com/npm/
+  cnpm ------ http://r.cnpmjs.org/
+  taobao ---- https://registry.npm.taobao.org/
+  nj -------- https://registry.nodejitsu.com/
+  skimdb ---- https://skimdb.npmjs.com/registry
+</code></pre><p>切换源</p>
+<pre><code>nrm use taobao
+</code></pre><p>测试源的速度</p>
+<pre><code>nrm test taobao
+</code></pre><p>登录,如果没有私服或不发布npm包用不上</p>
+<pre><code>nrm login &lt;registry&gt; [value]   Set authorize information for a registry with a base64 encoded string or username and pasword
+      -a  --always-auth                     Set is always auth
+      -u  --username &lt;username&gt;             Your user name for this registry
+      -p  --password &lt;password&gt;             Your password for this registry
+      -e  --email &lt;email&gt;  
+</code></pre><h2 id="pm2一个nodejs进程管理工具">pm2一个node.js进程管理工具</h2>
+<p>node.js 启动的程序如果报错会停止运行，需要再次启动。
+mp2可以让你的node.js程序0秒重启，在后台运行，监听代码变化自动重启，停机重启。</p>
+<h3 id="安装-1">安装</h3>
+<pre><code class="language-npm" data-lang="npm">npm install pm2@latest -g
+</code></pre><h3 id="使用-1">使用</h3>
+<p>启动</p>
+<pre><code>pm2 start app.js --name &quot;my-api&quot;
+</code></pre><p>停止</p>
+<pre><code>pm2 stop my-api
+</code></pre><p>重启</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pm2 restart my-api
+</code></pre></div><p>删除</p>
+<pre><code>pm2 delete my-api
+</code></pre><p>列出进程</p>
+<pre><code>pm2 list
+</code></pre><p>删除进程</p>
+<pre><code>pm2 describe 0
+</code></pre><p><strong>开机自动重启</strong></p>
+<p>1、启动程序</p>
+<pre><code>pm2 start app.js
+</code></pre><p>2、保存程序</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pm2 save
+</code></pre></div><p>3、把启动服务加到系统中，</p>
+<pre><code>pm2 startup
+</code></pre><p>更多<a href="https://github.com/Unitech/pm2">pm2</a>的用法查看<a href="https://github.com/Unitech/pm2">官方</a></p>
+
+            
+        </article>
+    </div>
+</div>
+
+<footer>
+    <span class="copyright">
+         &copy; 2021 
+        <a href="https://github.com/aanupam23/hugo-sugoi" title="hugo-sugoi" alt="hugo-sugoi" target="_blank">Hugo-Sugoi</a>
+    </span>
+</footer></body>
+</html>

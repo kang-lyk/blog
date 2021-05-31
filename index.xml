@@ -60,6 +60,19 @@ $&amp;gt; verdaccio warn --- config file - /home/.</description>
     </item>
     
     <item>
+      <title>开发npm包并发布</title>
+      <link>https://kang-lyk.github.io/blog/post/2020/1022/</link>
+      <pubDate>Mon, 05 Oct 2020 11:01:55 +0800</pubDate>
+      
+      <guid>https://kang-lyk.github.io/blog/post/2020/1022/</guid>
+      <description>开发 开始一个npm组件得选择一个javascript 模块打包器，rollup是比webpack更适合的存在。vue、Reace等知名框架也同样用rollup.js进行打包。与webpack相比更轻量，打包的代码很干净，没有其他冗余代码。
+Babel 是一个工具链，主要用于在旧的浏览器或环境中将 ECMAScript 2015+ 代码转换为向后兼容版本的 JavaScript 代码。如果你的npm包为会在浏览器运行，那么Babel也是你必须安装的包。
+新建项目 npm init 依次输入项目名、版本号等信息就会生成一个package.json文件
+{ &amp;#34;name&amp;#34;: &amp;#34;lyk_countdown&amp;#34;, &amp;#34;version&amp;#34;: &amp;#34;0.1.0&amp;#34;, &amp;#34;description&amp;#34;: &amp;#34;倒计时组件&amp;#34;, &amp;#34;keywords&amp;#34;: [&amp;#34;countdown&amp;#34;, &amp;#34;倒计时&amp;#34;], &amp;#34;scripts&amp;#34;: {}, &amp;#34;author&amp;#34;: &amp;#34;luyongkang&amp;#34;, &amp;#34;devDependencies&amp;#34;: {}, &amp;#34;dependencies&amp;#34;: {}, &amp;#34;license&amp;#34;: &amp;#34;ISC&amp;#34; } packag.json文件主要属性：
+ version 表明了当前的版本。 name 设置了应用程序/软件包的名称。 description 是应用程序/软件包的简短描述。 main 设置了应用程序的入口点。 scripts 定义了一组可以运行的 node 脚本。 dependencies 设置了作为依赖安装的 npm 软件包的列表。 devDependencies 设置了作为开发依赖安装的 npm 软件包的列表。 engines 设置了此软件包/应用程序在哪个版本的 Node.js 上运行。  &amp;#34;engines&amp;#34;: { &amp;#34;node&amp;#34;: &amp;#34;&amp;gt;= 6.0.0&amp;#34;, &amp;#34;npm&amp;#34;: &amp;#34;&amp;gt;= 3.0.0&amp;#34;, &amp;#34;yarn&amp;#34;: &amp;#34;^0.</description>
+    </item>
+    
+    <item>
       <title>从Promise到async和await</title>
       <link>https://kang-lyk.github.io/blog/post/2020/1004/</link>
       <pubDate>Fri, 28 Feb 2020 06:20:45 +0800</pubDate>

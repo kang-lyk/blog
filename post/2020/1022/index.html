@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+<title>开发npm包并发布 - 枯木逢春犹再发，人无两度再少年</title>
+<meta name="description"
+    content="">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/normalize.css">
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/skeleton.css">
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/custom.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+
+
+
+
+</head>
+    <body><nav>
+    <label for="drop" class="toggle"><i class="fas fa-bars u-pull-right" aria-hidden="true"></i> <span><i
+                class="fas fa-fire" aria-hidden="true"></i>
+            枯木</span></label>
+    <input type="checkbox" id="drop" />
+    <ul class="menu">
+        <li><a href="https://kang-lyk.github.io/blog/"><span><i class="fas fa-fire" aria-hidden="true"></i>
+                    枯木</span></a></li>
+        
+        <li class="u-pull-right">
+            <a href="https://kang-lyk.github.io/blog/post" class="Members">
+                <span> 博文</span>
+            </a>
+        </li>
+        
+        <li class="u-pull-right">
+            <a href="https://kang-lyk.github.io/blog/" class="Members">
+                <span> 首页</span>
+            </a>
+        </li>
+        
+    </ul>
+</nav>
+
+<div class="section hero">
+    <div class="container">
+        <h1 class="section-heading">开发npm包并发布</h1>
+        
+        
+        
+        <i class="far fa-calendar"></i> Published On: 2020-10-05,
+        <i class="far fa-clock"></i> Reading Time: 5 minutes
+        </h6>
+    </div>
+</div>
+
+<div class="section main">
+    <div class="row content">
+        <article>
+            <h2 id="开发">开发</h2>
+<p>开始一个npm组件得选择一个javascript 模块打包器，rollup是比webpack更适合的存在。vue、Reace等知名框架也同样用rollup.js进行打包。与webpack相比更轻量，打包的代码很干净，没有其他冗余代码。</p>
+<p><code>Babel </code>是一个工具链，主要用于在旧的浏览器或环境中将 ECMAScript 2015+ 代码转换为向后兼容版本的 JavaScript 代码。如果你的npm包为会在浏览器运行，那么Babel也是你必须安装的包。</p>
+<h3 id="新建项目">新建项目</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm init
+</code></pre></div><p>依次输入项目名、版本号等信息就会生成一个<code>package.json</code>文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;lyk_countdown&#34;</span>,
+  <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.1.0&#34;</span>,
+  <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;倒计时组件&#34;</span>,
+  <span style="color:#f92672">&#34;keywords&#34;</span>: [<span style="color:#e6db74">&#34;countdown&#34;</span>, <span style="color:#e6db74">&#34;倒计时&#34;</span>],
+  <span style="color:#f92672">&#34;scripts&#34;</span>: {},
+  <span style="color:#f92672">&#34;author&#34;</span>: <span style="color:#e6db74">&#34;luyongkang&#34;</span>,
+  <span style="color:#f92672">&#34;devDependencies&#34;</span>: {},
+  <span style="color:#f92672">&#34;dependencies&#34;</span>: {},
+  <span style="color:#f92672">&#34;license&#34;</span>: <span style="color:#e6db74">&#34;ISC&#34;</span>
+}
+</code></pre></div><p>packag.json文件主要属性：</p>
+<ul>
+<li><code>version</code> 表明了当前的版本。</li>
+<li><code>name</code> 设置了应用程序/软件包的名称。</li>
+<li><code>description</code> 是应用程序/软件包的简短描述。</li>
+<li><code>main</code> 设置了应用程序的入口点。</li>
+<li><code>scripts</code> 定义了一组可以运行的 node 脚本。</li>
+<li><code>dependencies</code> 设置了作为依赖安装的 <code>npm</code> 软件包的列表。</li>
+<li><code>devDependencies</code> 设置了作为开发依赖安装的 <code>npm</code> 软件包的列表。</li>
+<li><code>engines</code> 设置了此软件包/应用程序在哪个版本的 Node.js 上运行。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"> <span style="color:#e6db74">&#34;engines&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+   <span style="color:#f92672">&#34;node&#34;</span>: <span style="color:#e6db74">&#34;&gt;= 6.0.0&#34;</span>,
+   <span style="color:#f92672">&#34;npm&#34;</span>: <span style="color:#e6db74">&#34;&gt;= 3.0.0&#34;</span>,
+   <span style="color:#f92672">&#34;yarn&#34;</span>: <span style="color:#e6db74">&#34;^0.13.0&#34;</span>
+ }
+</code></pre></div><ul>
+<li><code>browserslist</code> 用于告知要支持哪些浏览器（及其版本）</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"> <span style="color:#e6db74">&#34;browserslist&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+   <span style="color:#e6db74">&#34;&gt; 1%&#34;</span>,
+   <span style="color:#e6db74">&#34;last 2 versions&#34;</span>,
+   <span style="color:#e6db74">&#34;not ie &lt;= 8&#34;</span>
+ ]
+</code></pre></div><ul>
+<li>
+<p><code>repository</code>可以显式地设置版本控制系统</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;repository&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+  <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;git&#34;</span>,
+  <span style="color:#f92672">&#34;url&#34;</span>: <span style="color:#e6db74">&#34;https://github.com/nodejscn/node-api-cn.git&#34;</span>
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;repository&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+  <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;svn&#34;</span>,
+  <span style="color:#f92672">&#34;url&#34;</span>: <span style="color:#e6db74">&#34;...&#34;</span>
+}
+</code></pre></div></li>
+<li>
+<p><code>private</code> 如果设置为 <code>true</code>，则可以防止应用程序/软件包被意外发布到 <code>npm</code> 上
+其他信息也可以参照<a href="https://nodejs.dev/learn/the-package-json-guide">package.json</a>指南补全</p>
+</li>
+</ul>
+<h3 id="安装我们开发需要的组件">安装我们开发需要的组件</h3>
+<p>rollup和babel是必需安装的包</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm i @babel/core @babel/plugin-transform-runtime @babel/preset-env babel-plugin-external-helpers babel-preset-latest rollup rollup-plugin-babel rollup-plugin-cleanup rollup-plugin-cleanup rollup-plugin-node-resolve rollup-plugin-replace rollup-plugin-uglify -D
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm i @babel/runtime-corejs3 -S
+</code></pre></div><p>或者</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yarn add @babel/core @babel/plugin-transform-runtime @babel/preset-env babel-plugin-external-helpers babel-preset-latest rollup rollup-plugin-babel rollup-plugin-cleanup rollup-plugin-cleanup rollup-plugin-node-resolve rollup-plugin-replace rollup-plugin-uglify -d
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"> yarn add @babel/runtime-corejs3 -S
+</code></pre></div><p>新建<code>rollup.config.js</code>文件配置<code>rollup</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">path</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;path&#39;</span>
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">babel</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;rollup-plugin-babel&#39;</span>
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">cleanup</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;rollup-plugin-cleanup&#39;</span>
+<span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">uglify</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;rollup-plugin-uglify&#39;</span>
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">nodeResolve</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;rollup-plugin-node-resolve&#39;</span>
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">commonjs</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;rollup-plugin-commonjs&#39;</span>
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">pkg</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./package.json&#39;</span>
+
+<span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">version</span>, <span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">author</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">pkg</span>
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">resolve</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#a6e22e">p</span>);
+}
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">pluginsCommon</span> <span style="color:#f92672">=</span> [
+    <span style="color:#a6e22e">commonjs</span>({
+        <span style="color:#75715e">// polyfill async/await
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#39;node_modules/@babel/runtime/helpers/asyncToGenerator.js&#39;</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;default&#39;</span>]
+    }),
+    <span style="color:#a6e22e">nodeResolve</span>({
+        <span style="color:#a6e22e">module</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+    }),
+    <span style="color:#a6e22e">babel</span>({
+        <span style="color:#a6e22e">runtimeHelpers</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+    }),
+  	<span style="color:#a6e22e">uglify</span>()
+]
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> [
+    {
+        <span style="color:#a6e22e">input</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#39;src/index.js&#39;</span>),
+        <span style="color:#a6e22e">plugins</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">pluginsCommon</span>,
+        <span style="color:#a6e22e">output</span><span style="color:#f92672">:</span> {
+            <span style="color:#a6e22e">file</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">`dist/lyk_npm-</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">version</span><span style="color:#e6db74">}</span><span style="color:#e6db74">.min.js`</span>),
+            <span style="color:#a6e22e">format</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;umd&#39;</span>,
+            <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;lyk_npm&#39;</span>
+        }
+    },
+    {
+        <span style="color:#a6e22e">input</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#39;src/index.js&#39;</span>),
+        <span style="color:#a6e22e">output</span><span style="color:#f92672">:</span> [
+            {
+                <span style="color:#a6e22e">file</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#39;dist/lyk_npm.es.js&#39;</span>),
+                <span style="color:#a6e22e">format</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;es&#39;</span>,
+                <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;lyk_npm&#39;</span>
+            }, 
+            {
+                <span style="color:#a6e22e">file</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#39;dist/lyk_npm.js&#39;</span>),
+                <span style="color:#a6e22e">format</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;cjs&#39;</span>,
+                <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;lyk_npm&#39;</span>
+            },
+        ],
+        <span style="color:#a6e22e">plugins</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">pluginsCommon</span>.<span style="color:#a6e22e">concat</span>([
+            <span style="color:#a6e22e">cleanup</span>(),
+            <span style="color:#a6e22e">commonjs</span>(),
+            <span style="color:#a6e22e">nodeResolve</span>({
+                <span style="color:#75715e">// 将自定义选项传递给解析插件
+</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">customResolveOptions</span><span style="color:#f92672">:</span> {
+                    <span style="color:#a6e22e">moduleDirectory</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;node_modules&#39;</span>
+                }
+            }),
+            <span style="color:#a6e22e">babel</span>({
+                <span style="color:#a6e22e">runtimeHelpers</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+            })
+        ])   
+    }
+]
+</code></pre></div><p>官网的给出的<code>rollup.rollup</code>函数实例</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">rollup</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;rollup&#39;</span>);
+
+<span style="color:#75715e">// see below for details on the options
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">inputOptions</span> <span style="color:#f92672">=</span> {...};
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">outputOptions</span> <span style="color:#f92672">=</span> {...};
+
+<span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">build</span>() {
+  <span style="color:#75715e">// create a bundle
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">bundle</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">rollup</span>.<span style="color:#a6e22e">rollup</span>(<span style="color:#a6e22e">inputOptions</span>);
+
+  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">bundle</span>.<span style="color:#a6e22e">imports</span>); <span style="color:#75715e">// an array of external dependencies
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">bundle</span>.<span style="color:#a6e22e">exports</span>); <span style="color:#75715e">// an array of names exported by the entry point
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">bundle</span>.<span style="color:#a6e22e">modules</span>); <span style="color:#75715e">// an array of module objects
+</span><span style="color:#75715e"></span>
+  <span style="color:#75715e">// generate code and a sourcemap
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">code</span>, <span style="color:#a6e22e">map</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">bundle</span>.<span style="color:#a6e22e">generate</span>(<span style="color:#a6e22e">outputOptions</span>);
+
+  <span style="color:#75715e">// or write the bundle to disk
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">bundle</span>.<span style="color:#a6e22e">write</span>(<span style="color:#a6e22e">outputOptions</span>);
+}
+
+<span style="color:#a6e22e">build</span>();
+</code></pre></div><p>参数分为 <code>inputOptions</code>和<code>outputOptions</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">inputOptions</span> <span style="color:#f92672">=</span> {
+  <span style="color:#75715e">// 核心参数
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">input</span>, <span style="color:#75715e">// 唯一必填参数
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">external</span>,
+  <span style="color:#a6e22e">plugins</span>,
+  <span style="color:#75715e">// 高级参数
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">onwarn</span>,
+  <span style="color:#a6e22e">cache</span>,
+  <span style="color:#75715e">// 危险参数
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">acorn</span>,
+  <span style="color:#a6e22e">context</span>,
+  <span style="color:#a6e22e">moduleContext</span>,
+  <span style="color:#a6e22e">legacy</span>
+};
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">outputOptions</span> <span style="color:#f92672">=</span> {
+  <span style="color:#75715e">// 核心参数
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">file</span>,   <span style="color:#75715e">// 若有bundle.write，必填
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">format</span>, <span style="color:#75715e">// 必填
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">name</span>,
+  <span style="color:#a6e22e">globals</span>,
+  <span style="color:#75715e">// 高级参数
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">paths</span>,
+  <span style="color:#a6e22e">banner</span>,
+  <span style="color:#a6e22e">footer</span>,
+  <span style="color:#a6e22e">intro</span>,
+  <span style="color:#a6e22e">outro</span>,
+  <span style="color:#a6e22e">sourcemap</span>,
+  <span style="color:#a6e22e">sourcemapFile</span>,
+  <span style="color:#a6e22e">interop</span>,
+  <span style="color:#75715e">// 危险区域
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">exports</span>,
+  <span style="color:#a6e22e">amd</span>,
+  <span style="color:#a6e22e">indent</span>
+  <span style="color:#a6e22e">strict</span>
+};
+</code></pre></div><p>实际使用中我们很少直接调用rollup的函数，而是把配置家到<code>rollup.config.js</code>文件中</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">// rollup.config.js
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+  <span style="color:#75715e">// 核心选项
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">input</span>,     <span style="color:#75715e">// 必须
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">external</span>,
+  <span style="color:#a6e22e">plugins</span>,
+  <span style="color:#75715e">// 额外选项
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">onwarn</span>,
+  <span style="color:#75715e">// danger zone
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">acorn</span>,
+  <span style="color:#a6e22e">context</span>,
+  <span style="color:#a6e22e">moduleContext</span>,
+  <span style="color:#a6e22e">legacy</span>,
+  <span style="color:#a6e22e">output</span><span style="color:#f92672">:</span> {  <span style="color:#75715e">// 必须 (如果要输出多个，可以是一个数组)
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 核心选项
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">file</span>,    <span style="color:#75715e">// 必须
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">format</span>,  <span style="color:#75715e">// 必须
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">name</span>,
+    <span style="color:#a6e22e">globals</span>,
+    <span style="color:#75715e">// 额外选项
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">paths</span>,
+    <span style="color:#a6e22e">banner</span>,
+    <span style="color:#a6e22e">footer</span>,
+    <span style="color:#a6e22e">intro</span>,
+    <span style="color:#a6e22e">outro</span>,
+    <span style="color:#a6e22e">sourcemap</span>,
+    <span style="color:#a6e22e">sourcemapFile</span>,
+    <span style="color:#a6e22e">interop</span>,
+    <span style="color:#75715e">// 高危选项
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">exports</span>,
+    <span style="color:#a6e22e">amd</span>,
+    <span style="color:#a6e22e">indent</span>
+    <span style="color:#a6e22e">strict</span>
+  },
+};
+
+</code></pre></div><h4 id="核心功能配置">核心功能配置</h4>
+<p><strong><code>input</code> 输入</strong></p>
+<p><code>String</code> 这个包的入口点 (例如：你的 <code>main.js</code> 或者 <code>app.js</code> 或者 <code>index.js</code>)</p>
+<p><strong><code>output.file</code></strong></p>
+<p><code>String</code> 要生成的文件。也可用于生成 sourcemaps，如果适用</p>
+<p><strong><code>output.format</code> 要生成的文件格式</strong></p>
+<p><code>String</code> 生成包的格式：</p>
+<ul>
+<li><code>amd</code> – 异步模块定义，用于像RequireJS这样的模块加载器</li>
+<li><code>cjs</code> – CommonJS，适用于 Node 和 Browserify/Webpack</li>
+<li><code>esm</code> – 将软件包保存为 ES 模块文件，在现代浏览器中可以通过 <code>&lt;script type=module&gt;</code> 标签引入</li>
+<li><code>iife</code> – 一个自动执行的功能，适合作为<code>&lt;script&gt;</code>标签。（如果要为应用程序创建一个捆绑包，您可能想要使用它，因为它会使文件大小变小。）</li>
+<li><code>umd</code> – 通用模块定义，以<code>amd</code>，<code>cjs</code> 和 <code>iife</code> 为一体</li>
+<li><code>system</code> - SystemJS 加载器格式</li>
+</ul>
+<p><strong><code>output.name</code>生成包名称</strong></p>
+<p>String 变量名，代表你的 iife/umd 包，同一页上的其他脚本可以访问它</p>
+<p><strong><code>external</code>外链</strong></p>
+<p>两者任一 <code>Function</code> 需要一个 <code>id</code> 并返回 <code>true</code>（外部引用）或 <code>false</code>（不是外部的引用）， 或者 <code>Array</code> 应该保留在bundle的外部引用的模块ID。ID应该是：</p>
+<ol>
+<li>外部依赖的名称</li>
+<li>一个已被找到路径的ID（像文件的绝对路径）</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">// rollup.config.js
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">path</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;path&#39;</span>;
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+  ...,
+  <span style="color:#a6e22e">external</span><span style="color:#f92672">:</span> [
+    <span style="color:#e6db74">&#39;jquery&#39;</span>,
+    <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>( <span style="color:#e6db74">&#39;./src/some-local-file-that-should-not-be-bundled.js&#39;</span> )
+  ]
+};
+</code></pre></div><p>如果你的项目用到jquery,但不想打包进去而不在<code>external</code>里写<code>jquery</code>，打包时文件会有一千多行的<code>juqery</code>打包进去。</p>
+<p><code>external</code>里写<code>jquery</code>当打包时还会报</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">No name was provided <span style="color:#66d9ef">for</span> external module <span style="color:#e6db74">&#39;jquery&#39;</span> in options.globals - guessing <span style="color:#e6db74">&#39;$&#39;</span>
+</code></pre></div><p>还配置一下<code>globals</code>属性</p>
+<p><strong><code>globals</code>全局模块</strong></p>
+<p><code>Object</code> 形式的 <code>id: name</code> 键值对，用于<code>umd</code>/<code>iife</code>包。例如：在这样的情况下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">$</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;jquery&#39;</span>;
+</code></pre></div><p>我们想告诉 Rollup <code>jquery</code> 模块的id等同于 <code>$</code> 变量</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">// rollup.config.js
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+  ...,
+  <span style="color:#a6e22e">format</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;iife&#39;</span>,
+  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;MyBundle&#39;</span>,
+  <span style="color:#a6e22e">globals</span><span style="color:#f92672">:</span> {
+    <span style="color:#a6e22e">jquery</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;$&#39;</span>
+  }
+};
+
+</code></pre></div><p><strong><code>plugins</code>插件</strong></p>
+<p>插件对象 <code>数组 Array</code></p>
+<p>更多参数可以参<a href="https://www.rollupjs.com/guide/big-list-of-options">官网</a></p>
+<h4 id="rollup的主要插件">rollup的主要插件</h4>
+<ul>
+<li>
+<p><a href="https://github.com/rollup/rollup-plugin-babel">rollup-plugin-babel</a>
+着 Babel 和 Rollup 的最简单方法被使用。这个设置有一些不寻常的地方。首先，我们在<code>.babelrc.js</code>设置 <code>&quot;modules&quot;: false</code> ，否则 Babel 会在 Rollup 有机会做处理之前，将我们的模块转成 CommonJS ，导致 Rollup 的一些处理失败</p>
+</li>
+<li>
+<p><a href="https://www.rollupjs.com/guide/tools#rollup-plugin-commonjs">rollup-plugin-commonjs</a>
+一些库导出成你可以正常导入的 ES6 模块就是一个这样的模块。 但是目前， npm 中的大多数包都是以 CommonJS 模块的形式出现的。 在它们更改之前，我们需要将 CommonJS 模块转换为 ES2015 供 Rollup 处理。<strong>这个 <a href="https://github.com/rollup/rollup-plugin-commonjs">rollup-plugin-commonjs</a> 插件就是用来将 CommonJS 转换成 ES2015 模块的</strong>。</p>
+<p>请注意， <code>rollup-plugin-commonjs</code> 应该用在其他插件转换你的模块<em>之前</em> - 这是为了防止其他插件的改变破坏 CommonJS 的检测。</p>
+</li>
+<li>
+<p><a href="https://www.rollupjs.com/guide/tools#rollup-plugin-node-resolve">rollup-plugin-node-resolve</a></p>
+<p>这个 <a href="https://github.com/rollup/rollup-plugin-node-resolve">rollup-plugin-node-resolve</a> 插件可以告诉 Rollup 如何查找外部模块。</p>
+</li>
+</ul>
+<p>如果开发的包是vue组件可以引入 <a href="https://github.com/vuejs/rollup-plugin-vue">rollup-plugin-vue</a></p>
+<p>新建 <code>.babelrc.js</code>配置babel</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> {
+  	<span style="color:#75715e">// 预设配置
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">presets</span><span style="color:#f92672">:</span> [
+        [
+            <span style="color:#e6db74">&#34;@babel/preset-env&#34;</span>,
+            {
+                <span style="color:#75715e">// &#34;debug&#34;: true, // debug，编译的时候 console
+</span><span style="color:#75715e"></span>                <span style="color:#e6db74">&#34;useBuiltIns&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;entry&#39;</span>, <span style="color:#75715e">// 是否开启自动支持 polyfill
+</span><span style="color:#75715e"></span>                <span style="color:#e6db74">&#34;modules&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>, <span style="color:#75715e">// 模块使用 es modules ，不使用 commonJS 规范
+</span><span style="color:#75715e"></span>                <span style="color:#e6db74">&#34;targets&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;iOS &gt;= 8, Android &gt;= 5.0&#34;</span>
+            }
+        ]
+    ],
+  	<span style="color:#75715e">// 插件
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">plugins</span><span style="color:#f92672">:</span> [
+        [
+            <span style="color:#e6db74">&#34;@babel/plugin-transform-runtime&#34;</span>,
+            {
+                <span style="color:#75715e">// useESModules：引入的helpers是否是es modules规范的；注意当打包成cjs时不能引入es modules下的代码，会报错
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// &#34;useESModules&#34;: true,
+</span><span style="color:#75715e"></span>                <span style="color:#e6db74">&#34;corejs&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">3</span> <span style="color:#75715e">// 参考官方文档
+</span><span style="color:#75715e"></span>            }
+        ],
+    ]
+}
+</code></pre></div><p><code>babel</code>主要配置参数</p>
+<p><code>plugins</code>是指插件。<code>babel</code>是插件化的，如果什么插件都不用，那编译后的js文件不没有变化的。所以想转化出浏览器兼容的js代码引入多个插件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">{
+  <span style="color:#e6db74">&#34;plugins&#34;</span><span style="color:#f92672">:</span> [
+    <span style="color:#75715e">// 三角函数
+</span><span style="color:#75715e"></span>    <span style="color:#e6db74">&#34;@babel/plugin-transform-arrow-functions&#34;</span><span style="color:#960050;background-color:#1e0010">，</span>
+    <span style="color:#75715e">// 类的转换
+</span><span style="color:#75715e"></span>    <span style="color:#e6db74">&#34;@babel/plugin-transform-classes&#34;</span>
+  ]
+}
+</code></pre></div><p><code>presets</code> 其实是<code>plugins</code>的集合。如果自己写一个<code>presets</code>可以是这样的</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() {
+  <span style="color:#66d9ef">return</span> {
+    <span style="color:#a6e22e">plugins</span><span style="color:#f92672">:</span> [
+      <span style="color:#e6db74">&#34;pluginA&#34;</span>,
+      <span style="color:#e6db74">&#34;pluginB&#34;</span>,
+      <span style="color:#75715e">// 传递参数
+</span><span style="color:#75715e"></span>      [<span style="color:#e6db74">&#34;pluginC&#34;</span>, {<span style="color:#a6e22e">a</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">b</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>}],
+    ]
+  };
+}
+</code></pre></div><p><code>bable</code>官方和社区都提供了很多<code>presets</code>避免一个去安装支持es6新语法的插件。</p>
+<p>官方presets：</p>
+<ul>
+<li><a href="https://babel.docschina.org/docs/en/babel-preset-env">@babel/preset-env</a></li>
+<li><a href="https://babel.docschina.org/docs/en/babel-preset-flow">@babel/preset-flow</a></li>
+<li><a href="https://babel.docschina.org/docs/en/babel-preset-react">@babel/preset-react</a></li>
+<li><a href="https://babel.docschina.org/docs/en/babel-preset-typescript">@babel/preset-typescript</a></li>
+</ul>
+<p><strong>preset-env</strong>（处理es6+规范语法的插件集合）这个预设最常见，<code>targets</code>配置运行环境</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> {
+  <span style="color:#a6e22e">presets</span><span style="color:#f92672">:</span> [
+    [
+      <span style="color:#e6db74">&#34;@babel/preset-env&#34;</span>, {
+        <span style="color:#e6db74">&#39;targets&#39;</span><span style="color:#f92672">:</span> {
+          <span style="color:#e6db74">&#39;browsers&#39;</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;ie &gt;= 8&#39;</span>, <span style="color:#e6db74">&#39;iOS 7&#39;</span>] <span style="color:#75715e">// 支持ie8，直接使用iOS浏览器版本7
+</span><span style="color:#75715e"></span>        }
+      }
+    ]
+  ]
+}
+</code></pre></div><p>但<code>bable</code>只编译es6的新语法而不会对新增加的全局的API编译。可以在https://babel.docschina.org/repl/ 试用，</p>
+<p>编译前</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> () =&gt; {}
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">arr1</span> <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">33</span>]
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">arr2</span> <span style="color:#f92672">=</span> [...<span style="color:#a6e22e">arr1</span>]
+
+<span style="color:#75715e">// 新增API
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">new</span> Promise(() =&gt; {})
+<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Map</span>()
+</code></pre></div><p>编译后</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">fun</span>() {};
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">arr1</span> <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">33</span>];
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">arr2</span> <span style="color:#f92672">=</span> [].<span style="color:#a6e22e">concat</span>(<span style="color:#a6e22e">arr1</span>); 
+
+<span style="color:#75715e">// 新增API
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">new</span> Promise(<span style="color:#66d9ef">function</span> () {});
+<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Map</span>();
+</code></pre></div><p>这时要用到**@babel/polyfill**(由core-js3和regenerator-runtime组成的一个集成包),。</p>
+<p>可以在我们的计算器文件顶部引入，但会把整个&rsquo;@babel/polyfill'引入进来体积会太大。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">/*my.js*/</span>
+<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;@babel/polyfill&#39;</span>
+<span style="color:#75715e">// 新增API
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">new</span> Promise(<span style="color:#66d9ef">function</span> () {});
+</code></pre></div><p>所以我们用修改<strong>preset-env</strong> 的配置项中的<code>useBuiltIns</code>属性来按需引入polyfill</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">/* babel.config.js */</span>
+
+<span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> {
+  <span style="color:#a6e22e">presets</span><span style="color:#f92672">:</span> [
+    [
+      <span style="color:#e6db74">&#34;@babel/preset-env&#34;</span>, {
+        <span style="color:#e6db74">&#34;modules&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+        <span style="color:#75715e">// usage为按需引入，false不开启、entry在js里头引入
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;useBuiltIns&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;usage&#34;</span>,
+        <span style="color:#e6db74">&#39;targets&#39;</span><span style="color:#f92672">:</span> {
+          <span style="color:#e6db74">&#39;browsers&#39;</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;ie &gt;= 8&#39;</span>, <span style="color:#e6db74">&#39;iOS 7&#39;</span>] <span style="color:#75715e">// 支持ie8，直接使用iOS浏览器版本7
+</span><span style="color:#75715e"></span>        }
+      }
+    ]
+  ]
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#960050;background-color:#1e0010">/加了&#34;useBuiltIns&#34;: &#34;usage&#34;被后不用再引入&#39;@babel/polyfill&#39;*/</span>
+<span style="color:#75715e">// import &#39;@babel/polyfill&#39;
+</span><span style="color:#75715e">// 新增API
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">new</span> Promise(<span style="color:#66d9ef">function</span> () {});
+</code></pre></div><p>新版的<code>bable</code>不再为了解决一些问题废弃了<code>@babel/polyfill</code>,现在需要对分别安装core-js3和regenerator-runtime这两个包</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm i @babel/plugin-transform-runtime -D
+
+npm i @babel/runtime-corejs3 -S
+</code></pre></div><p>配置需要再修改一下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">{
+  <span style="color:#e6db74">&#34;presets&#34;</span><span style="color:#f92672">:</span> [
+    [
+      <span style="color:#e6db74">&#34;@babel/preset-env&#34;</span>,
+      {
+        <span style="color:#e6db74">&#34;useBuiltIns&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;usage&#34;</span>,
+        <span style="color:#e6db74">&#34;debug&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+      }
+    ]
+  ],
+  <span style="color:#e6db74">&#34;plugins&#34;</span><span style="color:#f92672">:</span> [
+    [
+      <span style="color:#e6db74">&#34;@babel/plugin-transform-runtime&#34;</span>,
+      {
+        <span style="color:#e6db74">&#34;corejs&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">3</span> <span style="color:#75715e">// 指定 runtime-corejs 的版本，目前有 2 3 两个版本
+</span><span style="color:#75715e"></span>      }
+    ]
+  ]
+}
+</code></pre></div><p><strong><code>build</code></strong></p>
+<p>代码开发完后可以在根目录运行</p>
+<pre><code>rollup --config
+</code></pre><p>可以把命令写在<code>package.json </code>中的<code>script</code>中方便调用</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;scripts&#34;</span>: {
+    <span style="color:#f92672">&#34;build&#34;</span>: <span style="color:#e6db74">&#34;rm -rf dist &amp;&amp; rollup --config&#34;</span>
+  }
+}
+</code></pre></div><h2 id="注册与登录">注册与登录</h2>
+<p>可以命令行注册或直接上官网注册</p>
+<p>注册</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm adduser
+</code></pre></div><p>登录</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm login
+</code></pre></div><h2 id="发布">发布</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm publish
+</code></pre></div><p>一个npm包就做好了。过程其实很简单难点只有<code>rollup</code>和<code>bable</code>的配置。</p>
+<h2 id="heading"></h2>
+
+            
+        </article>
+    </div>
+</div>
+
+<footer>
+    <span class="copyright">
+         &copy; 2021 
+        <a href="https://github.com/aanupam23/hugo-sugoi" title="hugo-sugoi" alt="hugo-sugoi" target="_blank">Hugo-Sugoi</a>
+    </span>
+</footer></body>
+</html>

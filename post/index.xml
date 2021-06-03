@@ -6,10 +6,25 @@
     <description>Recent content in Posts on 枯木逢春犹再发，人无两度再少年</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 21 Oct 2020 17:05:31 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 25 Oct 2020 16:11:23 +0800</lastBuildDate>
     
 	<atom:link href="https://kang-lyk.github.io/blog/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>mock.js&#43;koa2作一个简单的mockServe</title>
+      <link>https://kang-lyk.github.io/blog/post/2020/1025/</link>
+      <pubDate>Sun, 25 Oct 2020 16:11:23 +0800</pubDate>
+      
+      <guid>https://kang-lyk.github.io/blog/post/2020/1025/</guid>
+      <description>mock.js是阿里出品的有于拦截AJAX接口请求生成随机数据的库。在已提供接口文档的情况下，用mock.js生接口请求数据，而不用等待服务端的同伙给测试接口，方便并行开发。
+以前在研究 ant-design pro时发现它所使用的react角手架DvaJS支持mock.js（现在推荐使用Umi），
+在mock目录编辑文件如 /mock/api.js 的内容
+export default { // 支持值为 Object 和 Array  &amp;#39;GET /api/users&amp;#39;: { users: [1, 2] }, // GET 可忽略  &amp;#39;/api/users/1&amp;#39;: { id: 1 }, // 支持自定义函数，API 参考 express@4  &amp;#39;POST /api/users/create&amp;#39;: (req, res) =&amp;gt; { // 添加跨域请求头  res.setHeader(&amp;#39;Access-Control-Allow-Origin&amp;#39;, &amp;#39;*&amp;#39;); res.end(&amp;#39;ok&amp;#39;); } } 然后访问 /api/users 就能得到 { users: [1,2] } 的响应。
+vue版本的ant-design是没有Umi这样的角手架，只能用vue-cli了。vue-cli可不是阿里的，没有自带mock.js。
+当然这并不影响我们把mock.js加入进去。
+//vue.config.js const mock = require(&amp;#39;./mock&amp;#39;) { devServer: { // 环境变量MOCK决定是否开启MOCK  before: process.</description>
+    </item>
     
     <item>
       <title>node.js常用的工具npx、nvm、nrm、pm2</title>

@@ -65,6 +65,33 @@
       
       
       <div class="row">
+        <div class="nine columns"> <i class="far fa-calendar"></i> 2020-10-25</div>
+        <div class="three columns"> <i class="far fa-clock"></i> Reading Time: 2
+          minutes</div>
+      </div>
+      <h5>
+        <a href="/blog/post/2020/1025/" class="category" alt="mock.js&#43;koa2作一个简单的mockServe" title="mock.js&#43;koa2作一个简单的mockServe">mock.js&#43;koa2作一个简单的mockServe</a>
+      </h5>
+      <p class="card-text">mock.js是阿里出品的有于拦截AJAX接口请求生成随机数据的库。在已提供接口文档的情况下，用mock.js生接口请求数据，而不用等待服务端的同伙给测试接口，方便并行开发。
+以前在研究 ant-design pro时发现它所使用的react角手架DvaJS支持mock.js（现在推荐使用Umi），
+在mock目录编辑文件如 /mock/api.js 的内容
+export default { // 支持值为 Object 和 Array  &#39;GET /api/users&#39;: { users: [1, 2] }, // GET 可忽略  &#39;/api/users/1&#39;: { id: 1 }, // 支持自定义函数，API 参考 express@4  &#39;POST /api/users/create&#39;: (req, res) =&gt; { // 添加跨域请求头  res.setHeader(&#39;Access-Control-Allow-Origin&#39;, &#39;*&#39;); res.end(&#39;ok&#39;); } } 然后访问 /api/users 就能得到 { users: [1,2] } 的响应。
+vue版本的ant-design是没有Umi这样的角手架，只能用vue-cli了。vue-cli可不是阿里的，没有自带mock.js。
+当然这并不影响我们把mock.js加入进去。
+//vue.config.js const mock = require(&#39;./mock&#39;) { devServer: { // 环境变量MOCK决定是否开启MOCK  before: process.</p>
+      <div class="row">
+        <div class="six columns"><a class="button" href="https://kang-lyk.github.io/blog/post/2020/1025/">阅读全文</a></div>
+        <div class="six columns"><div class="u-pull-right"><i class=""></i>
+          <span class="category">
+            
+        </div>
+        </div>
+      </div>
+    
+      
+      
+      
+      <div class="row">
         <div class="nine columns"> <i class="far fa-calendar"></i> 2020-10-21</div>
         <div class="three columns"> <i class="far fa-clock"></i> Reading Time: 2
           minutes</div>

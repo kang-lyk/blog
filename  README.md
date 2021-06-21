@@ -11,7 +11,7 @@ $ go get -v github.com/spf13/hugo
 
 ```$ hugo new site /path/to/site```
 
-这样就在 /path/to/site 目录里生成了初始站点，进去目录：
+这样就在 /path/to/site 目录里 生成了初始站点，进去目录：
 
 ```$ cd /path/to/site```
 

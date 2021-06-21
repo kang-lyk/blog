@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+<title>节流（throttle）与防抖（debounce） - 枯木逢春犹再发，人无两度再少年</title>
+<meta name="description"
+    content="">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/normalize.css">
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/skeleton.css">
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/custom.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+
+
+
+
+</head>
+    <body><nav>
+    <label for="drop" class="toggle"><i class="fas fa-bars u-pull-right" aria-hidden="true"></i> <span><i
+                class="fas fa-fire" aria-hidden="true"></i>
+            枯木</span></label>
+    <input type="checkbox" id="drop" />
+    <ul class="menu">
+        <li><a href="https://kang-lyk.github.io/blog/"><span><i class="fas fa-fire" aria-hidden="true"></i>
+                    枯木</span></a></li>
+        
+        <li class="u-pull-right">
+            <a href="https://kang-lyk.github.io/blog/post" class="Members">
+                <span> 博文</span>
+            </a>
+        </li>
+        
+        <li class="u-pull-right">
+            <a href="https://kang-lyk.github.io/blog/" class="Members">
+                <span> 首页</span>
+            </a>
+        </li>
+        
+    </ul>
+</nav>
+
+<div class="section hero">
+    <div class="container">
+        <h1 class="section-heading">节流（throttle）与防抖（debounce）</h1>
+        
+        
+        
+        <i class="far fa-calendar"></i> Published On: 2020-05-17,
+        <i class="far fa-clock"></i> Reading Time: 2 minutes
+        </h6>
+    </div>
+</div>
+
+<div class="section main">
+    <div class="row content">
+        <article>
+            <h3 id="场景">场景</h3>
+<p>因频繁执行DOM操作，资源加载等行为，导致UI停顿，如：onresize、onscroll、mousemove、mousedown、keydown，文字输入input等事件。</p>
+<p>比如每次搜索一下就会向服务器发送一个请求，这样既没有意义，也很浪费资源。</p>
+<h3 id="解决方案">解决方案</h3>
+<p>实际需求大多为停止改变大小n毫秒后执行后续处理；而其他事件大多数的需求是以一定的频率执行后续处理。针对这两种需求出现了debounce（函数去抖）和throttle（函数节流）两种方式。</p>
+<h3 id="节流与防抖">节流与防抖：</h3>
+<p><strong>节流</strong></p>
+<p>节流就是控制水的流量。就比如一个持续流水的水龙头，水龙头开到最大的时候很浪费水资源，将水龙头开得小一点，让他每隔300毫秒流出一滴水。而节流就是每隔n的时间调用一次函数，而不是一触发事件就调用一次，这样就会减少资源浪费，比如onscro事件中做图片懒加载。</p>
+<p><strong>防抖</strong>
+A和B说话，A一直bbbbbb，当A持续说了一段时间的话后停止讲话，过了10秒之后，我们判定A讲完了，B开始回答A的话；如果10秒内A又继续讲话，那么我们判定A没讲完，B不响应，等A再次停止后，我们再次计算停止的时间，如果超过10秒B响应，如果没有则B不响应。应用场景如百度的搜索</p>
+<p><strong>节流与防抖的区别</strong>
+节流与防抖的前提都是某个行为持续地触发，不同之处只要判断是要优化到减少它的执行次数还是只执行一次就行。</p>
+<ul>
+<li>节流例子，像dom的拖拽，如果用消抖的话，就会出现卡顿的感觉，因为只在停止的时候执行了一次，这个时候就应该用节流，在一定时间内多次执行，会流畅很多。</li>
+<li>防抖例子，像仿百度搜索，就应该用防抖，当我连续不断输入时，不会发送请求；当我一段时间内不输入了，才会发送一次请求；如果小于这段时间继续输入的话，时间会重新计算，也不会发送请求。</li>
+</ul>
+<h3 id="debounce防抖">debounce（防抖）</h3>
+<p>防抖分为<code>立即防抖</code>和<code>非立即防抖</code>
+最常见的例子就是：<code>搜索</code></p>
+<p><strong>非立即防抖</strong>：触发事件后函数不会立即执行，而是在n秒之后执行，如果n秒之内又触发了事件，则会重新计算函数执行时间。
+<strong>立即防抖</strong>：触发事件后函数会立即执行，然后n秒内不触发事件才会执行函数的效果</p>
+<p><strong>非立即防抖</strong></p>
+<p>在<code>wait</code>参数指定的时间之后执行</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">debounce</span>(<span style="color:#a6e22e">func</span>, <span style="color:#a6e22e">wait</span>) {
+     <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">function</span> () {
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">context</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">args</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">arguments</span>;
+        <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">clearTimeout</span>(<span style="color:#a6e22e">timeout</span>);
+        <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">setTimeout</span>(<span style="color:#66d9ef">function</span> () {
+            <span style="color:#a6e22e">func</span>.<span style="color:#a6e22e">apply</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">args</span>)
+        }, <span style="color:#a6e22e">wait</span>);
+    }
+}
+</code></pre></div><p><strong>立即防抖</strong></p>
+<p>立即执行，但在<code>wait</code>参数指定的时间内不会再执行。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">debounce</span>(<span style="color:#a6e22e">func</span>, <span style="color:#a6e22e">wait</span>) {
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">function</span> () {
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">timeout</span>) <span style="color:#a6e22e">clearTimeout</span>(<span style="color:#a6e22e">timeout</span>);
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">callNow</span> <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">timeout</span>;
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">context</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">args</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">arguments</span>;
+        <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">setTimeout</span>(<span style="color:#66d9ef">function</span> () {
+            <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+        }, <span style="color:#a6e22e">wait</span>)
+        <span style="color:#a6e22e">callNow</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">func</span>.<span style="color:#a6e22e">apply</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">args</span>)
+    }
+}
+</code></pre></div><p><strong>也可以将非立即执行版和立即执行版的防抖函数结合起来，实现最终的双剑合璧版的防抖函数。</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">/**
+</span><span style="color:#75715e">* @desc 函数防抖
+</span><span style="color:#75715e">* @param func (function) 函数
+</span><span style="color:#75715e">* @param wait (number) 延迟执行毫秒数
+</span><span style="color:#75715e">* @param immediate (boolean) true 表立即执行，false 表非立即执行
+</span><span style="color:#75715e">*/</span>
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">debounce</span>(<span style="color:#a6e22e">func</span>, <span style="color:#a6e22e">wait</span>, <span style="color:#a6e22e">immediate</span>) {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">timeout</span>;
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">function</span> () {
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">context</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">args</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">arguments</span>;
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">timeout</span>) <span style="color:#a6e22e">clearTimeout</span>(<span style="color:#a6e22e">timeout</span>);
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">immediate</span>) {
+            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">callNow</span> <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">timeout</span>;
+            <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">setTimeout</span>(<span style="color:#66d9ef">function</span> () {
+                <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+            }, <span style="color:#a6e22e">wait</span>)
+            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">callNow</span>) <span style="color:#a6e22e">func</span>.<span style="color:#a6e22e">apply</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">args</span>)
+        }
+        <span style="color:#66d9ef">else</span> {
+            <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">setTimeout</span>(<span style="color:#66d9ef">function</span> () {
+                <span style="color:#a6e22e">func</span>.<span style="color:#a6e22e">apply</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">args</span>)
+            }, <span style="color:#a6e22e">wait</span>);
+        }
+    }
+}
+</code></pre></div><h3 id="throttle节流">throttle（节流）</h3>
+<p>节流分为<code>时间戳</code>和<code>定时版本</code></p>
+<p>如果一个函数持续的，频繁的触发，那么就让他在一定的时间间隔后触发。</p>
+<p><strong>高频事件：</strong>
+onscroll oninput resize onkeyup onkeydown onkerpress
+onkeyup：每键入一个字母触发一次（并不是按照我们输入的汉字计算的）</p>
+<p>节流单纯的降低代码执行的频率，保证一段时间内核心代码只执行一次。</p>
+<p><strong>时间戳版和定时器版的节流函数的区别就是，时间戳版的函数触发是在时间段内开始的时候，而定时器版的函数触发是在时间段内结束的时候。</strong></p>
+<p><strong>时间戳版</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">throttle</span>(<span style="color:#a6e22e">func</span>, <span style="color:#a6e22e">wait</span>) {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">previous</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">function</span> () {
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">now</span> <span style="color:#f92672">=</span> Date.<span style="color:#a6e22e">now</span>();
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">context</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">args</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">arguments</span>;
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">now</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">previous</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">wait</span>) {
+            <span style="color:#a6e22e">func</span>.<span style="color:#a6e22e">apply</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">args</span>);
+            <span style="color:#a6e22e">previous</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">now</span>;
+        }
+    }
+}
+</code></pre></div><p><strong>定时器版本</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">throttle</span>(<span style="color:#a6e22e">func</span>, <span style="color:#a6e22e">wait</span>) {
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">timeout</span>;
+
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">function</span>() {
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">context</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">args</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">arguments</span>;
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">timeout</span>) {
+            <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">setTimeout</span>(<span style="color:#66d9ef">function</span>(){
+                <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+                <span style="color:#a6e22e">func</span>.<span style="color:#a6e22e">apply</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">args</span>)
+            }, <span style="color:#a6e22e">wait</span>)
+        }
+
+    }
+}
+</code></pre></div><p><strong>可以将时间戳版和定时器版的节流函数结合起来，实现双剑合璧版的节流函数。</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tsx" data-lang="tsx"><span style="color:#75715e">/**
+</span><span style="color:#75715e">* @desc 函数节流
+</span><span style="color:#75715e">* @param func (function) 函数
+</span><span style="color:#75715e">* @param wait (number) 延迟执行毫秒数
+</span><span style="color:#75715e">* @param type  (number) 1 表时间戳版，2 表定时器版
+</span><span style="color:#75715e">*/</span>
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">throttle</span>(<span style="color:#a6e22e">func</span>, <span style="color:#a6e22e">wait</span> ,<span style="color:#a6e22e">type</span>) {
+    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">type</span><span style="color:#f92672">===</span><span style="color:#ae81ff">1</span>){
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">previous</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">type</span><span style="color:#f92672">===</span><span style="color:#ae81ff">2</span>){
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">timeout</span>;
+    }
+
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">function</span>() {
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">context</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">args</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">arguments</span>;
+        <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">type</span><span style="color:#f92672">===</span><span style="color:#ae81ff">1</span>){
+            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">now</span> <span style="color:#f92672">=</span> Date.<span style="color:#a6e22e">now</span>();
+
+            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">now</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">previous</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">wait</span>) {
+                <span style="color:#a6e22e">func</span>.<span style="color:#a6e22e">apply</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">args</span>);
+                <span style="color:#a6e22e">previous</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">now</span>;
+            }
+        }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">type</span><span style="color:#f92672">===</span><span style="color:#ae81ff">2</span>){
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">timeout</span>) {
+                <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">setTimeout</span>(<span style="color:#66d9ef">function</span>(){
+                    <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+                    <span style="color:#a6e22e">func</span>.<span style="color:#a6e22e">apply</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">args</span>)
+                }, <span style="color:#a6e22e">wait</span>)
+            }
+        }
+
+    }
+}
+</code></pre></div><h2 id="总结">总结</h2>
+<p>其实<strong>防抖</strong>与<strong>节流</strong>的主要区别是“防抖”会多出<code>clearTimeout(timeout)</code>。</p>
+<p>日常工作中我们可以不用自己手动写“防抖”和“节流”函如，因为有<code>lodash</code>这个实用的工具库。如果你的项目中用的是<code>webapck+bable</code>构建的你甚至可以不用<code>yarn add lodash -S</code>去安装它。因为它是在webpack和bable中都有使用到它。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">debounce</span>, <span style="color:#a6e22e">throttle</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;lodash&#39;</span>
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">scrollHandle</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">throttle</span>(() =&gt; {
+   <span style="color:#75715e">// do  
+</span><span style="color:#75715e"></span>}, <span style="color:#ae81ff">500</span>)
+window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;scroll&#39;</span>, <span style="color:#a6e22e">scrollHandle</span>, <span style="color:#66d9ef">false</span>)
+</code></pre></div><p>参考链接：https://www.jianshu.com/p/566c66aafa22</p>
+
+            
+        </article>
+    </div>
+</div>
+
+<footer>
+    <span class="copyright">
+         &copy; 2021 
+        <a href="https://github.com/aanupam23/hugo-sugoi" title="hugo-sugoi" alt="hugo-sugoi" target="_blank">Hugo-Sugoi</a>
+    </span>
+</footer></body>
+</html>

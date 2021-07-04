@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-	<meta name="generator" content="Hugo 0.68.3" />
+	<meta name="generator" content="Hugo 0.84.4" />
     <meta charset="utf-8">
 <title>枯木逢春犹再发，人无两度再少年 - 枯木逢春犹再发，人无两度再少年</title>
 <meta name="description"
@@ -61,6 +61,66 @@
   <div class="row content">
     <article>
       
+      
+      
+      
+      <div class="row">
+        <div class="nine columns"> <i class="far fa-calendar"></i> 2021-07-04</div>
+        <div class="three columns"> <i class="far fa-clock"></i> Reading Time: 3
+          minutes</div>
+      </div>
+      <h5>
+        <a href="/blog/post/2021/0703/" class="category" alt="适应不同手机尺寸的解决方案" title="适应不同手机尺寸的解决方案">适应不同手机尺寸的解决方案</a>
+      </h5>
+      <p class="card-text">使用rem做基本单位 移动端必须的head头体
+&lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1, maximum-scale=1&#34;&gt; 控制为物理宽度的一倍。然后
+html { font-size: 100px; } body { font-size: .14rem; } .box { height: .16rem; } rem属性指的是相对于根元素设置某个元素的字体大小。这些我们只要用js或者css的“媒体查询”控制了根元素的字体大小就很好的适应不同宽度的手机。具体选哪一种可以根据实际情况选择。
+js控制根元素字体 在&lt;head&gt;里添加这段js代码
+手机淘宝解决方案 这段代码摘自https://main.m.taobao.com/
+!function(e, t) { var n = t.documentElement , d = e.devicePixelRatio || 1; function i() { var e = n.clientWidth / 3.75; n.style.fontSize = e + &#34;px&#34; } if (function e() { t.body ? t.body.style.fontSize = &#34;16px&#34; : t.addEventListener(&#34;DOMContentLoaded&#34;, e) }(), i(), e.</p>
+      <div class="row">
+        <div class="six columns"><a class="button" href="https://kang-lyk.github.io/blog/post/2021/0703/">阅读全文</a></div>
+        <div class="six columns"><div class="u-pull-right"><i class=""></i>
+          <span class="category">
+            
+        </div>
+        </div>
+      </div>
+    
+      
+      
+      
+      <div class="row">
+        <div class="nine columns"> <i class="far fa-calendar"></i> 2021-05-17</div>
+        <div class="three columns"> <i class="far fa-clock"></i> Reading Time: 2
+          minutes</div>
+      </div>
+      <h5>
+        <a href="/blog/post/2021/0205/" class="category" alt="节流（throttle）与防抖（debounce）" title="节流（throttle）与防抖（debounce）">节流（throttle）与防抖（debounce）</a>
+      </h5>
+      <p class="card-text">场景 因频繁执行DOM操作，资源加载等行为，导致UI停顿，如：onresize、onscroll、mousemove、mousedown、keydown，文字输入input等事件。
+比如每次搜索一下就会向服务器发送一个请求，这样既没有意义，也很浪费资源。
+解决方案 实际需求大多为停止改变大小n毫秒后执行后续处理；而其他事件大多数的需求是以一定的频率执行后续处理。针对这两种需求出现了debounce（函数去抖）和throttle（函数节流）两种方式。
+节流与防抖： 节流
+节流就是控制水的流量。就比如一个持续流水的水龙头，水龙头开到最大的时候很浪费水资源，将水龙头开得小一点，让他每隔300毫秒流出一滴水。而节流就是每隔n的时间调用一次函数，而不是一触发事件就调用一次，这样就会减少资源浪费，比如onscro事件中做图片懒加载。
+防抖 A和B说话，A一直bbbbbb，当A持续说了一段时间的话后停止讲话，过了10秒之后，我们判定A讲完了，B开始回答A的话；如果10秒内A又继续讲话，那么我们判定A没讲完，B不响应，等A再次停止后，我们再次计算停止的时间，如果超过10秒B响应，如果没有则B不响应。应用场景如百度的搜索
+节流与防抖的区别 节流与防抖的前提都是某个行为持续地触发，不同之处只要判断是要优化到减少它的执行次数还是只执行一次就行。
+ 节流例子，像dom的拖拽，如果用消抖的话，就会出现卡顿的感觉，因为只在停止的时候执行了一次，这个时候就应该用节流，在一定时间内多次执行，会流畅很多。 防抖例子，像仿百度搜索，就应该用防抖，当我连续不断输入时，不会发送请求；当我一段时间内不输入了，才会发送一次请求；如果小于这段时间继续输入的话，时间会重新计算，也不会发送请求。  debounce（防抖） 防抖分为立即防抖和非立即防抖 最常见的例子就是：搜索
+非立即防抖：触发事件后函数不会立即执行，而是在n秒之后执行，如果n秒之内又触发了事件，则会重新计算函数执行时间。 立即防抖：触发事件后函数会立即执行，然后n秒内不触发事件才会执行函数的效果
+非立即防抖
+在wait参数指定的时间之后执行
+function debounce(func, wait) { timeout = null; return function () { const context = this; const args = arguments; timeout &amp;&amp; clearTimeout(timeout); timeout = setTimeout(function () { func.apply(context, args) }, wait); } } 立即防抖
+立即执行，但在wait参数指定的时间内不会再执行。
+function debounce(func, wait) { let timeout = null; return function () { if (timeout) clearTimeout(timeout); const callNow = !</p>
+      <div class="row">
+        <div class="six columns"><a class="button" href="https://kang-lyk.github.io/blog/post/2021/0205/">阅读全文</a></div>
+        <div class="six columns"><div class="u-pull-right"><i class=""></i>
+          <span class="category">
+            
+        </div>
+        </div>
+      </div>
+    
       
       
       
@@ -149,8 +209,7 @@ nrm add myNpm http://192.168.3.112:4873 nrm use myNpm 注册帐号，依次输�
 npm adduser 登录,输入用户名密码
 npm login 发布包，在项目的根目录运行
 npm publish 如果没有修改源可以修改项目根目录的package.josn文件
-{ &#34;publishConfig&#34;: { &#34;registry&#34;: &#34;http://192.168.3.112:4873&#34; } } 配置 在启动verdaccio时会打印出一些信息，基中包含配置文件地址
-$&gt; verdaccio warn --- config file - /home/.</p>
+{ &#34;publishConfig&#34;: { &#34;registry&#34;: &#34;http://192.168.3.112:4873&#34; } } 配置 在启动verdaccio时会打印出一些信息，基中包含配置文件地址</p>
       <div class="row">
         <div class="six columns"><a class="button" href="https://kang-lyk.github.io/blog/post/2020/1006/">阅读全文</a></div>
         <div class="six columns"><div class="u-pull-right"><i class=""></i>
@@ -178,67 +237,6 @@ Babel 是一个工具链，主要用于在旧的浏览器或环境中将 ECMAScr
  version 表明了当前的版本。 name 设置了应用程序/软件包的名称。 description 是应用程序/软件包的简短描述。 main 设置了应用程序的入口点。 scripts 定义了一组可以运行的 node 脚本。 dependencies 设置了作为依赖安装的 npm 软件包的列表。 devDependencies 设置了作为开发依赖安装的 npm 软件包的列表。 engines 设置了此软件包/应用程序在哪个版本的 Node.js 上运行。  &#34;engines&#34;: { &#34;node&#34;: &#34;&gt;= 6.0.0&#34;, &#34;npm&#34;: &#34;&gt;= 3.0.0&#34;, &#34;yarn&#34;: &#34;^0.</p>
       <div class="row">
         <div class="six columns"><a class="button" href="https://kang-lyk.github.io/blog/post/2020/1022/">阅读全文</a></div>
-        <div class="six columns"><div class="u-pull-right"><i class=""></i>
-          <span class="category">
-            
-        </div>
-        </div>
-      </div>
-    
-      
-      
-      
-      <div class="row">
-        <div class="nine columns"> <i class="far fa-calendar"></i> 2020-05-17</div>
-        <div class="three columns"> <i class="far fa-clock"></i> Reading Time: 2
-          minutes</div>
-      </div>
-      <h5>
-        <a href="/blog/post/2021/0205/" class="category" alt="节流（throttle）与防抖（debounce）" title="节流（throttle）与防抖（debounce）">节流（throttle）与防抖（debounce）</a>
-      </h5>
-      <p class="card-text">场景 因频繁执行DOM操作，资源加载等行为，导致UI停顿，如：onresize、onscroll、mousemove、mousedown、keydown，文字输入input等事件。
-比如每次搜索一下就会向服务器发送一个请求，这样既没有意义，也很浪费资源。
-解决方案 实际需求大多为停止改变大小n毫秒后执行后续处理；而其他事件大多数的需求是以一定的频率执行后续处理。针对这两种需求出现了debounce（函数去抖）和throttle（函数节流）两种方式。
-节流与防抖： 节流
-节流就是控制水的流量。就比如一个持续流水的水龙头，水龙头开到最大的时候很浪费水资源，将水龙头开得小一点，让他每隔300毫秒流出一滴水。而节流就是每隔n的时间调用一次函数，而不是一触发事件就调用一次，这样就会减少资源浪费，比如onscro事件中做图片懒加载。
-防抖 A和B说话，A一直bbbbbb，当A持续说了一段时间的话后停止讲话，过了10秒之后，我们判定A讲完了，B开始回答A的话；如果10秒内A又继续讲话，那么我们判定A没讲完，B不响应，等A再次停止后，我们再次计算停止的时间，如果超过10秒B响应，如果没有则B不响应。应用场景如百度的搜索
-节流与防抖的区别 节流与防抖的前提都是某个行为持续地触发，不同之处只要判断是要优化到减少它的执行次数还是只执行一次就行。
- 节流例子，像dom的拖拽，如果用消抖的话，就会出现卡顿的感觉，因为只在停止的时候执行了一次，这个时候就应该用节流，在一定时间内多次执行，会流畅很多。 防抖例子，像仿百度搜索，就应该用防抖，当我连续不断输入时，不会发送请求；当我一段时间内不输入了，才会发送一次请求；如果小于这段时间继续输入的话，时间会重新计算，也不会发送请求。  debounce（防抖） 防抖分为立即防抖和非立即防抖 最常见的例子就是：搜索
-非立即防抖：触发事件后函数不会立即执行，而是在n秒之后执行，如果n秒之内又触发了事件，则会重新计算函数执行时间。 立即防抖：触发事件后函数会立即执行，然后n秒内不触发事件才会执行函数的效果
-非立即防抖
-在wait参数指定的时间之后执行
-function debounce(func, wait) { timeout = null; return function () { const context = this; const args = arguments; timeout &amp;&amp; clearTimeout(timeout); timeout = setTimeout(function () { func.apply(context, args) }, wait); } } 立即防抖
-立即执行，但在wait参数指定的时间内不会再执行。
-function debounce(func, wait) { let timeout = null; return function () { if (timeout) clearTimeout(timeout); const callNow = !</p>
-      <div class="row">
-        <div class="six columns"><a class="button" href="https://kang-lyk.github.io/blog/post/2021/0205/">阅读全文</a></div>
-        <div class="six columns"><div class="u-pull-right"><i class=""></i>
-          <span class="category">
-            
-        </div>
-        </div>
-      </div>
-    
-      
-      
-      
-      <div class="row">
-        <div class="nine columns"> <i class="far fa-calendar"></i> 2020-02-28</div>
-        <div class="three columns"> <i class="far fa-clock"></i> Reading Time: 3
-          minutes</div>
-      </div>
-      <h5>
-        <a href="/blog/post/2020/1004/" class="category" alt="从Promise到async和await" title="从Promise到async和await">从Promise到async和await</a>
-      </h5>
-      <p class="card-text">Promise 是ES6异步编程的一种解决方案,js传统的回调函数和事件更合理更强大。es7标准引入了async/ await函数使得异步操作更加方便。async函数就是 Generator 函数的语法糖。 Generator 语法行为与传统函数完全不同，不容易理解，本文直接会直播跳过 Generator 讲asyn / await。
-Promise的使用方法 Promise 对象是一个构造函数，用来生成 Promise 实例，如：
-const promise = new Promise(function(resolve, reject) { // ... some code  if (/* 异步操作成功 */){ resolve(value) } else { reject(error) } }) resolve 在异步操作成功时调用,并将异步操作报出的结果作为参数传递出去。
-reject 在异步操作失败时调用，并将异步操作报出的错误作为参数传递出去。
-Promise 对像的使用方法如下：
-promise.then(function(value) { // success }, function(error) { // failure }); 把jq的ajax函数传成Promise对象。
-const getList = function(option) { return new Promise((resolve, reject) =&gt; { $.ajax({ url: &#39;/api/news/list&#39;, data: option, success: function(data) { resolve(data) }, error: function(error) { reject(error) } }) }) } 使用方法</p>
-      <div class="row">
-        <div class="six columns"><a class="button" href="https://kang-lyk.github.io/blog/post/2020/1004/">阅读全文</a></div>
         <div class="six columns"><div class="u-pull-right"><i class=""></i>
           <span class="category">
             

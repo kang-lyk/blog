@@ -1,53 +1,36 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <url>
-    <loc>https://kang-lyk.github.io/blog/post/2020/1025/</loc>
-    <lastmod>2020-10-25T16:11:23+08:00</lastmod>
-  </url>
-  
   <url>
     <loc>https://kang-lyk.github.io/blog/post/</loc>
-    <lastmod>2020-10-25T16:11:23+08:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2021-07-04T19:33:26+08:00</lastmod>
+  </url><url>
     <loc>https://kang-lyk.github.io/blog/</loc>
+    <lastmod>2021-07-04T19:33:26+08:00</lastmod>
+  </url><url>
+    <loc>https://kang-lyk.github.io/blog/post/2021/0703/</loc>
+    <lastmod>2021-07-04T19:33:26+08:00</lastmod>
+  </url><url>
+    <loc>https://kang-lyk.github.io/blog/post/2021/0205/</loc>
+    <lastmod>2021-05-17T15:28:17+08:00</lastmod>
+  </url><url>
+    <loc>https://kang-lyk.github.io/blog/post/2020/1025/</loc>
     <lastmod>2020-10-25T16:11:23+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://kang-lyk.github.io/blog/post/2020/1021/</loc>
     <lastmod>2020-10-21T17:05:31+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://kang-lyk.github.io/blog/post/2020/1006/</loc>
     <lastmod>2020-10-06T14:39:27+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://kang-lyk.github.io/blog/post/2020/1022/</loc>
     <lastmod>2020-10-05T11:01:55+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://kang-lyk.github.io/blog/post/2021/0205/</loc>
-    <lastmod>2020-05-17T15:28:17+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://kang-lyk.github.io/blog/post/2020/1004/</loc>
     <lastmod>2020-02-28T06:20:45+08:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://kang-lyk.github.io/blog/categories/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://kang-lyk.github.io/blog/tags/</loc>
   </url>
-  
 </urlset>

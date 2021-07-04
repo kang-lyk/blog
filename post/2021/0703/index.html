@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+<title>适应不同手机尺寸的解决方案 - 枯木逢春犹再发，人无两度再少年</title>
+<meta name="description"
+    content="">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/normalize.css">
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/skeleton.css">
+
+<link rel="stylesheet" href="https://kang-lyk.github.io/blog/css/custom.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+
+
+
+
+</head>
+    <body><nav>
+    <label for="drop" class="toggle"><i class="fas fa-bars u-pull-right" aria-hidden="true"></i> <span><i
+                class="fas fa-fire" aria-hidden="true"></i>
+            枯木</span></label>
+    <input type="checkbox" id="drop" />
+    <ul class="menu">
+        <li><a href="https://kang-lyk.github.io/blog/"><span><i class="fas fa-fire" aria-hidden="true"></i>
+                    枯木</span></a></li>
+        
+        <li class="u-pull-right">
+            <a href="https://kang-lyk.github.io/blog/post" class="Members">
+                <span> 博文</span>
+            </a>
+        </li>
+        
+        <li class="u-pull-right">
+            <a href="https://kang-lyk.github.io/blog/" class="Members">
+                <span> 首页</span>
+            </a>
+        </li>
+        
+    </ul>
+</nav>
+
+<div class="section hero">
+    <div class="container">
+        <h1 class="section-heading">适应不同手机尺寸的解决方案</h1>
+        
+        
+        
+        <i class="far fa-calendar"></i> Published On: 2021-07-04,
+        <i class="far fa-clock"></i> Reading Time: 3 minutes
+        </h6>
+    </div>
+</div>
+
+<div class="section main">
+    <div class="row content">
+        <article>
+            <h2 id="使用rem做基本单位">使用rem做基本单位</h2>
+<p>移动端必须的head头体</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;viewport&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;width=device-width, initial-scale=1, maximum-scale=1&#34;</span>&gt;
+</code></pre></div><p>控制为物理宽度的一倍。然后</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css">
+<span style="color:#f92672">html</span> {
+ <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">100</span><span style="color:#66d9ef">px</span>;
+}
+<span style="color:#f92672">body</span> {
+    <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">.14</span><span style="color:#66d9ef">rem</span>;
+}
+.<span style="color:#a6e22e">box</span> {
+    <span style="color:#66d9ef">height</span>: <span style="color:#ae81ff">.16</span><span style="color:#66d9ef">rem</span>;
+}
+</code></pre></div><p><strong>rem</strong>属性指的是相对于根元素设置某个元素的字体大小。这些我们只要用<code>js</code>或者<code>css</code>的“媒体查询”控制了根元素的字体大小就很好的适应不同宽度的手机。具体选哪一种可以根据实际情况选择。</p>
+<h3 id="js控制根元素字体">js控制根元素字体</h3>
+<p>在<code>&lt;head&gt;</code>里添加这段js代码</p>
+<h3 id="手机淘宝解决方案">手机淘宝解决方案</h3>
+<p>这段代码摘自https://main.m.taobao.com/</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#f92672">!</span><span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">e</span>, <span style="color:#a6e22e">t</span>) {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">documentElement</span>
+    , <span style="color:#a6e22e">d</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">devicePixelRatio</span> <span style="color:#f92672">||</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">i</span>() {
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">e</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">clientWidth</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3.75</span>;
+        <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">fontSize</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">e</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;px&#34;</span>
+    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">e</span>() {
+        <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">body</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">fontSize</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;16px&#34;</span> <span style="color:#f92672">:</span> <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#34;DOMContentLoaded&#34;</span>, <span style="color:#a6e22e">e</span>)
+    }(),
+        <span style="color:#a6e22e">i</span>(),
+        <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#34;resize&#34;</span>, <span style="color:#a6e22e">i</span>),
+        <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#34;pageshow&#34;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">e</span>) {
+        <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">persisted</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">i</span>()
+    }),
+        <span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">d</span>) {
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">o</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#34;body&#34;</span>)
+        , <span style="color:#a6e22e">a</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#34;div&#34;</span>);
+        <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">border</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.5px solid transparent&#34;</span>,
+            <span style="color:#a6e22e">o</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">a</span>),
+            <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">o</span>),
+            <span style="color:#ae81ff">1</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">offsetHeight</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">classList</span>.<span style="color:#a6e22e">add</span>(<span style="color:#e6db74">&#34;hairlines&#34;</span>),
+            <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">removeChild</span>(<span style="color:#a6e22e">o</span>)
+    }
+}(window, document)
+
+</code></pre></div><p>当初看到的是在阿里的UED博客上看到的http://www.aliued.com/?p=3166，可惜已经下线看不到了，所以手机淘宝网的代码贴出来。</p>
+<p><strong>我的喜欢用的解决方案</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">new</span> <span style="color:#66d9ef">function</span> () {
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">init</span>() {
+        <span style="color:#75715e">// 1倍图的设计稿的宽度
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">width</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">375</span>,
+            <span style="color:#75715e">// 视口宽度
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">clientWidth</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">documentElement</span>.<span style="color:#a6e22e">clientWidth</span>,
+            <span style="color:#a6e22e">widthRate</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">clientWidth</span> <span style="color:#f92672">/</span> <span style="color:#a6e22e">width</span>,
+            <span style="color:#a6e22e">fontSize</span> <span style="color:#f92672">=</span>  <span style="color:#a6e22e">widthRate</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>
+        <span style="color:#75715e">// 小于12px即使是手机的浏览器也有许多不支持的，pc端完全不支持
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">fontSize</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">12</span>) {
+            <span style="color:#a6e22e">fontSize</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>
+        }
+        document.<span style="color:#a6e22e">getElementsByTagName</span>(<span style="color:#e6db74">&#39;html&#39;</span>)[<span style="color:#ae81ff">0</span>].<span style="color:#a6e22e">setAttribute</span>(<span style="color:#e6db74">&#39;style&#39;</span>, <span style="color:#e6db74">&#39;font-size:&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">fontSize</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;px !important&#39;</span>);    
+    }
+    <span style="color:#a6e22e">init</span>()
+    <span style="color:#75715e">// 
+</span><span style="color:#75715e"></span>    window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;resize&#39;</span>, <span style="color:#66d9ef">function</span> () {
+        <span style="color:#a6e22e">init</span>();
+    }, <span style="color:#66d9ef">false</span>);
+};
+
+</code></pre></div><h3 id="css-媒体查询控制根元素字体">css 媒体查询控制根元素字体</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css">
+@<span style="color:#66d9ef">media</span> <span style="color:#f92672">screen</span> <span style="color:#f92672">and</span> <span style="color:#f92672">(</span><span style="color:#f92672">device-width</span><span style="color:#f92672">:</span> <span style="color:#f92672">640px</span><span style="color:#f92672">)</span> { 
+    <span style="color:#f92672">html</span> {
+    	<span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">90</span><span style="color:#66d9ef">px</span> <span style="color:#75715e">!important</span>;
+    }
+}
+ 
+@<span style="color:#66d9ef">media</span> <span style="color:#f92672">screen</span> <span style="color:#f92672">and</span> <span style="color:#f92672">(</span><span style="color:#f92672">device-width</span><span style="color:#f92672">:</span> <span style="color:#f92672">750px</span><span style="color:#f92672">)</span> { 
+      <span style="color:#f92672">html</span> {
+        <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">100</span><span style="color:#66d9ef">px</span> <span style="color:#75715e">!important</span>;
+      }
+}
+@<span style="color:#66d9ef">media</span> <span style="color:#f92672">screen</span> <span style="color:#f92672">and</span> <span style="color:#f92672">(</span><span style="color:#f92672">device-width</span><span style="color:#f92672">:</span> <span style="color:#f92672">1240px</span><span style="color:#f92672">)</span> { 
+      <span style="color:#f92672">html</span> {
+        <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">194</span><span style="color:#66d9ef">px</span> <span style="color:#75715e">!important</span>;
+      }
+}
+</code></pre></div><p>许多框架喜欢用媒体查询，比如<strong>bootstrap</strong>等。</p>
+<p>但如果见到大屏就简单的把字体放大就是点屏幕宽度了，应该要考虑<strong>响应式布局</strong>了。</p>
+<p>顺便介绍一个用scss写的混合器处理2倍图和3倍图</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scss" data-lang="scss"><span style="color:#66d9ef">@mixin</span><span style="color:#a6e22e"> bg-image</span>($url) {
+  <span style="color:#a6e22e">background-image</span><span style="color:#f92672">:</span> <span style="color:#e6db74">url($url + &#34;@2x.png&#34;)</span>;
+  <span style="color:#66d9ef">@media</span> (<span style="color:#a6e22e">-webkit-min-device-pixel-ratio</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">3</span>)<span style="color:#f92672">,</span> (min-device-pixel-ratio<span style="color:#f92672">:</span> <span style="color:#ae81ff">3</span>) {
+    <span style="color:#a6e22e">background-image</span><span style="color:#f92672">:</span> <span style="color:#e6db74">url($url + &#34;@3x.png&#34;)</span>;
+  }
+}
+</code></pre></div><p>在<code>vue.config.js</code>上写加上可以全局使用了</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">css</span><span style="color:#f92672">:</span> {
+    <span style="color:#a6e22e">loaderOptions</span><span style="color:#f92672">:</span> {
+      <span style="color:#a6e22e">sass</span><span style="color:#f92672">:</span> {
+        <span style="color:#75715e">// 全局引入变量和 mixin
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">additionalData</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`
+</span><span style="color:#e6db74">          @import &#34;@/assets/scss/variable.scss&#34;;
+</span><span style="color:#e6db74">          @import &#34;@/assets/scss/mixin.scss&#34;;
+</span><span style="color:#e6db74">        `</span>
+      }
+    }
+  },
+</code></pre></div><h2 id="视觉数据大屏">视觉数据大屏</h2>
+<p>首次接受视觉大屏需求，看到那 3840 X 2160 像素的设计稿一脸问号。不考虑屏幕比例不同的吗？之后查了资料才知道，视觉数据大屏优先适配4K屏。1920 x 1080的4k分辨率就是 3840 X 2160 像素</p>
+<p>参考：https://www.zhihu.com/question/275860245</p>
+<p>解决方案来自http://www.youbaobao.xyz/datav-next/#/screen</p>
+<p>一个vue插件，设置CSS的 ransform: scale 来适应放大与缩小。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vue" data-lang="vue">&lt;<span style="color:#f92672">template</span>&gt;
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;imooc-container&#34;</span> <span style="color:#f92672">:ref</span><span style="color:#e6db74">=&#34;refName&#34;</span>&gt;
+    &lt;<span style="color:#f92672">template</span> <span style="color:#f92672">v-if</span><span style="color:#e6db74">=&#34;ready&#34;</span>&gt;
+      &lt;<span style="color:#f92672">slot</span>&gt;&lt;/<span style="color:#f92672">slot</span>&gt;
+    &lt;/<span style="color:#f92672">template</span>&gt;
+  &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">template</span>&gt;
+
+&lt;<span style="color:#f92672">script</span>&gt;
+  <span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">ref</span>, <span style="color:#a6e22e">getCurrentInstance</span>, <span style="color:#a6e22e">onMounted</span>, <span style="color:#a6e22e">onUnmounted</span>, <span style="color:#a6e22e">nextTick</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;vue&#39;</span>
+  <span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">debounce</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;../../utils&#39;</span>
+
+  <span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;ImoocContainer&#39;</span>,
+    <span style="color:#a6e22e">props</span><span style="color:#f92672">:</span> {
+      <span style="color:#a6e22e">options</span><span style="color:#f92672">:</span> Object
+    },
+    <span style="color:#a6e22e">setup</span>(<span style="color:#a6e22e">props</span>) {
+      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">refName</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;imoocContainer&#39;</span>
+      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">width</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ref</span>(<span style="color:#ae81ff">0</span>)
+      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">height</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ref</span>(<span style="color:#ae81ff">0</span>)
+      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">originalWidth</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ref</span>(<span style="color:#ae81ff">0</span>)
+      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">originalHeight</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ref</span>(<span style="color:#ae81ff">0</span>)
+      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ready</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ref</span>(<span style="color:#66d9ef">false</span>)
+      <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">dom</span>, <span style="color:#a6e22e">observer</span>
+
+      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">initSize</span> <span style="color:#f92672">=</span> () =&gt; {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>) =&gt; {
+          <span style="color:#a6e22e">nextTick</span>(() =&gt; {
+            <span style="color:#a6e22e">dom</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">$refs</span>[<span style="color:#a6e22e">refName</span>]
+            <span style="color:#75715e">// 获取大屏的真实尺寸
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">options</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">width</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">height</span>) {
+              <span style="color:#a6e22e">width</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">width</span>
+              <span style="color:#a6e22e">height</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">height</span>
+            } <span style="color:#66d9ef">else</span> {
+              <span style="color:#a6e22e">width</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">dom</span>.<span style="color:#a6e22e">clientWidth</span>
+              <span style="color:#a6e22e">height</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">dom</span>.<span style="color:#a6e22e">clientHeight</span>
+            }
+            <span style="color:#75715e">// 获取画布尺寸
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">originalWidth</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">originalHeight</span>.<span style="color:#a6e22e">value</span>) {
+              <span style="color:#a6e22e">originalWidth</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">screen</span>.<span style="color:#a6e22e">width</span>
+              <span style="color:#a6e22e">originalHeight</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">screen</span>.<span style="color:#a6e22e">height</span>
+            }
+            <span style="color:#75715e">// console.log(width.value, height.value, originalWidth.value, originalHeight.value)
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">resolve</span>()
+          })
+        })
+      }
+
+      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">updateSize</span> <span style="color:#f92672">=</span> () =&gt; {
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">width</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">height</span>.<span style="color:#a6e22e">value</span>) {
+          <span style="color:#a6e22e">dom</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">width</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">width</span>.<span style="color:#a6e22e">value</span><span style="color:#e6db74">}</span><span style="color:#e6db74">px`</span>
+          <span style="color:#a6e22e">dom</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">height</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">height</span>.<span style="color:#a6e22e">value</span><span style="color:#e6db74">}</span><span style="color:#e6db74">px`</span>
+        } <span style="color:#66d9ef">else</span> {
+          <span style="color:#a6e22e">dom</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">width</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">originalWidth</span>.<span style="color:#a6e22e">value</span><span style="color:#e6db74">}</span><span style="color:#e6db74">px`</span>
+          <span style="color:#a6e22e">dom</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">height</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">originalHeight</span>.<span style="color:#a6e22e">value</span><span style="color:#e6db74">}</span><span style="color:#e6db74">px`</span>
+        }
+      }
+
+      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">updateScale</span> <span style="color:#f92672">=</span> () =&gt; {
+        <span style="color:#75715e">// 获取真实的视口尺寸
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">currentWidth</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">clientWidth</span>
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">currentHeight</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">clientHeight</span>
+        <span style="color:#75715e">// 获取大屏最终的宽高
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">realWidth</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">width</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">originalWidth</span>.<span style="color:#a6e22e">value</span>
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">realHeight</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">height</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">originalHeight</span>.<span style="color:#a6e22e">value</span>
+        <span style="color:#75715e">// console.log(currentWidth, currentHeight)
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">widthScale</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">currentWidth</span> <span style="color:#f92672">/</span> <span style="color:#a6e22e">realWidth</span>
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">heightScale</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">currentHeight</span> <span style="color:#f92672">/</span> <span style="color:#a6e22e">realHeight</span>
+        <span style="color:#a6e22e">dom</span> <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">dom</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">transform</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`scale(</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">widthScale</span><span style="color:#e6db74">}</span><span style="color:#e6db74">, </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">heightScale</span><span style="color:#e6db74">}</span><span style="color:#e6db74">)`</span>)
+      }
+
+      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">onResize</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">async</span> (<span style="color:#a6e22e">e</span>) =&gt; {
+        <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">initSize</span>()
+        <span style="color:#a6e22e">updateScale</span>()
+      }
+
+      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">initMutationObserver</span> <span style="color:#f92672">=</span> () =&gt; {
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">MutationObserver</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">MutationObserver</span>
+        <span style="color:#a6e22e">observer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">MutationObserver</span>(<span style="color:#a6e22e">onResize</span>)
+        <span style="color:#a6e22e">observer</span>.<span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">dom</span>, {
+          <span style="color:#a6e22e">attributes</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+          <span style="color:#a6e22e">attributeFilter</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;style&#39;</span>],
+          <span style="color:#a6e22e">attributeOldValue</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+        })
+      }
+
+      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">removeMutationObserver</span> <span style="color:#f92672">=</span> () =&gt; {
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">observer</span>) {
+          <span style="color:#a6e22e">observer</span>.<span style="color:#a6e22e">disconnect</span>()
+          <span style="color:#a6e22e">observer</span>.<span style="color:#a6e22e">takeRecords</span>()
+          <span style="color:#a6e22e">observer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>
+        }
+      }
+
+      <span style="color:#a6e22e">onMounted</span>(<span style="color:#a6e22e">async</span> () =&gt; {
+        <span style="color:#a6e22e">ready</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>
+        <span style="color:#a6e22e">context</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">getCurrentInstance</span>().<span style="color:#a6e22e">ctx</span>
+        <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">initSize</span>()
+        <span style="color:#a6e22e">updateSize</span>()
+        <span style="color:#a6e22e">updateScale</span>()
+        window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;resize&#39;</span>, <span style="color:#a6e22e">debounce</span>(<span style="color:#ae81ff">100</span>, <span style="color:#a6e22e">onResize</span>))
+        <span style="color:#a6e22e">initMutationObserver</span>()
+        <span style="color:#a6e22e">ready</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+      })
+
+      <span style="color:#a6e22e">onUnmounted</span>(() =&gt; {
+        window.<span style="color:#a6e22e">removeEventListener</span>(<span style="color:#e6db74">&#39;resize&#39;</span>, <span style="color:#a6e22e">onResize</span>)
+        <span style="color:#a6e22e">removeMutationObserver</span>()
+      })
+
+      <span style="color:#66d9ef">return</span> {
+        <span style="color:#a6e22e">refName</span>,
+        <span style="color:#a6e22e">ready</span>
+      }
+    }
+  }
+&lt;/<span style="color:#f92672">script</span>&gt;
+
+&lt;<span style="color:#f92672">style</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;scss&#34;</span>&gt;
+  <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">imooc</span><span style="color:#f92672">-</span><span style="color:#a6e22e">container</span> {
+    <span style="color:#a6e22e">position</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">fixed</span>;
+    <span style="color:#a6e22e">top</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#a6e22e">left</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#a6e22e">overflow</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">hidden</span>;
+    <span style="color:#a6e22e">transform</span><span style="color:#f92672">-</span><span style="color:#a6e22e">origin</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">left</span> <span style="color:#a6e22e">top</span>;
+    <span style="color:#a6e22e">z</span><span style="color:#f92672">-</span><span style="color:#a6e22e">index</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">999</span>;
+  }
+&lt;/<span style="color:#f92672">style</span>&gt;
+</code></pre></div>
+            
+        </article>
+    </div>
+</div>
+
+<footer>
+    <span class="copyright">
+         &copy; 2021 
+        <a href="https://github.com/aanupam23/hugo-sugoi" title="hugo-sugoi" alt="hugo-sugoi" target="_blank">Hugo-Sugoi</a>
+    </span>
+</footer></body>
+</html>

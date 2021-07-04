@@ -140,7 +140,7 @@
 <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">version</span>, <span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">author</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">pkg</span>
 
 <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">resolve</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span> =&gt; {
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#a6e22e">p</span>);
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#ae81ff">__</span><span style="color:#a6e22e">dirname</span>, <span style="color:#a6e22e">p</span>);
 }
 
 <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">pluginsCommon</span> <span style="color:#f92672">=</span> [
@@ -202,19 +202,19 @@
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">inputOptions</span> <span style="color:#f92672">=</span> {...};
 <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">outputOptions</span> <span style="color:#f92672">=</span> {...};
 
-<span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">build</span>() {
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">build</span>() {
   <span style="color:#75715e">// create a bundle
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">bundle</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">rollup</span>.<span style="color:#a6e22e">rollup</span>(<span style="color:#a6e22e">inputOptions</span>);
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">bundle</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">rollup</span>.<span style="color:#a6e22e">rollup</span>(<span style="color:#a6e22e">inputOptions</span>);
 
   <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">bundle</span>.<span style="color:#a6e22e">imports</span>); <span style="color:#75715e">// an array of external dependencies
 </span><span style="color:#75715e"></span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">bundle</span>.<span style="color:#a6e22e">exports</span>); <span style="color:#75715e">// an array of names exported by the entry point
 </span><span style="color:#75715e"></span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">bundle</span>.<span style="color:#a6e22e">modules</span>); <span style="color:#75715e">// an array of module objects
 </span><span style="color:#75715e"></span>
   <span style="color:#75715e">// generate code and a sourcemap
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">code</span>, <span style="color:#a6e22e">map</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">bundle</span>.<span style="color:#a6e22e">generate</span>(<span style="color:#a6e22e">outputOptions</span>);
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">code</span>, <span style="color:#a6e22e">map</span> } <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">bundle</span>.<span style="color:#a6e22e">generate</span>(<span style="color:#a6e22e">outputOptions</span>);
 
   <span style="color:#75715e">// or write the bundle to disk
-</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">bundle</span>.<span style="color:#a6e22e">write</span>(<span style="color:#a6e22e">outputOptions</span>);
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">bundle</span>.<span style="color:#a6e22e">write</span>(<span style="color:#a6e22e">outputOptions</span>);
 }
 
 <span style="color:#a6e22e">build</span>();
@@ -348,7 +348,7 @@
 <h4 id="rollup的主要插件">rollup的主要插件</h4>
 <ul>
 <li>
-<p><a href="https://github.com/rollup/rollup-plugin-babel">rollup-plugin-babel</a>
+<p><a href="https://github.com/rollup/rollup-plugin-babel">rollup-plugin-babel</a> 
 着 Babel 和 Rollup 的最简单方法被使用。这个设置有一些不寻常的地方。首先，我们在<code>.babelrc.js</code>设置 <code>&quot;modules&quot;: false</code> ，否则 Babel 会在 Rollup 有机会做处理之前，将我们的模块转成 CommonJS ，导致 Rollup 的一些处理失败</p>
 </li>
 <li>
@@ -447,7 +447,7 @@
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">new</span> Promise(<span style="color:#66d9ef">function</span> () {});
 <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Map</span>();
 </code></pre></div><p>这时要用到**@babel/polyfill**(由core-js3和regenerator-runtime组成的一个集成包),。</p>
-<p>可以在我们的计算器文件顶部引入，但会把整个&rsquo;@babel/polyfill'引入进来体积会太大。</p>
+<p>可以在我们的计算器文件顶部引入，但会把整个'@babel/polyfill&rsquo;引入进来体积会太大。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">/*my.js*/</span>
 <span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;@babel/polyfill&#39;</span>
 <span style="color:#75715e">// 新增API

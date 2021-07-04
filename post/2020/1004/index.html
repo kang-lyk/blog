@@ -187,8 +187,8 @@
 	})
 } 
 
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span>() {
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span>() {
+  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
   <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;await之后&#39;</span>)
 }
 
@@ -200,8 +200,8 @@
 </ul>
 <p><code>async</code>函数语法上规则总体比较简单，难点是错误处理机制。下面修改上述的<code>fun</code>函数对介绍几种错误处理机制。</p>
 <p>方法一：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span>() {
-  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span>() {
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
 }
 
 <span style="color:#a6e22e">fun</span>()
@@ -212,10 +212,10 @@
   	<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">error</span>)
 	})
 </code></pre></div><p>方法二：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span>() {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span>() {
   <span style="color:#66d9ef">try</span> {
-    <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
-  	<span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">9</span>)
+    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
+  	<span style="color:#66d9ef">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">9</span>)
   } <span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">e</span>) {
     <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;出错了&#39;</span>);
   }
@@ -223,13 +223,13 @@
 
 <span style="color:#a6e22e">fun</span>()
 </code></pre></div><p>方法三：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span>() {
-	<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">num0</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span>() {
+	<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">num0</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
   	.<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">data</span> =&gt; <span style="color:#a6e22e">data</span>)
   	.<span style="color:#66d9ef">catch</span>(() =&gt; {
     	<span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;出错了&#39;</span>);
   }) 
-	<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">num1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">9</span>)
+	<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">num1</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">9</span>)
   	.<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">data</span> =&gt; <span style="color:#a6e22e">data</span>)
   	.<span style="color:#66d9ef">catch</span>(() =&gt; {
     	<span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;出错了&#39;</span>);
@@ -246,8 +246,8 @@
 	})
 </code></pre></div><p>上面几种方法都不灵活，下面推荐<strong>终极解决文案</strong> <code>await to</code></p>
 <p>原理很简单，就是返回两个值</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span>() {
-	<span style="color:#66d9ef">let</span> [<span style="color:#a6e22e">error</span>, <span style="color:#a6e22e">data</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fun</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span>() {
+	<span style="color:#66d9ef">let</span> [<span style="color:#a6e22e">error</span>, <span style="color:#a6e22e">data</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">promise</span>(<span style="color:#ae81ff">12</span>)
   	.<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">num</span> =&gt; [<span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">num</span>])
   	.<span style="color:#66d9ef">catch</span>((<span style="color:#a6e22e">error</span>) =&gt; [<span style="color:#a6e22e">error</span>, <span style="color:#66d9ef">null</span>]) 
 }
@@ -257,17 +257,17 @@
 <p><code>npm i await-to-js</code>安装之后</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./to.js&#39;</span>;
 
-<span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">asyncTask</span>() {
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">asyncTask</span>() {
      <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">savedTask</span>;
 
-     [<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">user</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">to</span>(<span style="color:#a6e22e">UserModel</span>.<span style="color:#a6e22e">findById</span>(<span style="color:#ae81ff">1</span>));
+     [<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">user</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">to</span>(<span style="color:#a6e22e">UserModel</span>.<span style="color:#a6e22e">findById</span>(<span style="color:#ae81ff">1</span>));
      <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">user</span>) <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">CustomerError</span>(<span style="color:#e6db74">&#39;No user found&#39;</span>);
 
-     [<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">savedTask</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">to</span>(<span style="color:#a6e22e">TaskModel</span>({<span style="color:#a6e22e">userId</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Demo Task&#39;</span>}));
+     [<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">savedTask</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">to</span>(<span style="color:#a6e22e">TaskModel</span>({<span style="color:#a6e22e">userId</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Demo Task&#39;</span>}));
      <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">err</span>) <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">CustomError</span>(<span style="color:#e6db74">&#39;Error occurred while saving task&#39;</span>);
 
     <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">notificationsEnabled</span>) {
-       <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">err</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">to</span>(<span style="color:#a6e22e">NotificationService</span>.<span style="color:#a6e22e">sendNotification</span>(<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">id</span>, <span style="color:#e6db74">&#39;Task Created&#39;</span>));  
+       <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">err</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">to</span>(<span style="color:#a6e22e">NotificationService</span>.<span style="color:#a6e22e">sendNotification</span>(<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">id</span>, <span style="color:#e6db74">&#39;Task Created&#39;</span>));  
        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;Just log the error and continue flow&#39;</span>);
     }
 }

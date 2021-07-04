@@ -6,10 +6,42 @@
     <description>Recent content on 枯木逢春犹再发，人无两度再少年</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 25 Oct 2020 16:11:23 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 04 Jul 2021 19:33:26 +0800</lastBuildDate><atom:link href="https://kang-lyk.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>适应不同手机尺寸的解决方案</title>
+      <link>https://kang-lyk.github.io/blog/post/2021/0703/</link>
+      <pubDate>Sun, 04 Jul 2021 19:33:26 +0800</pubDate>
+      
+      <guid>https://kang-lyk.github.io/blog/post/2021/0703/</guid>
+      <description>使用rem做基本单位 移动端必须的head头体
+&amp;lt;meta name=&amp;#34;viewport&amp;#34; content=&amp;#34;width=device-width, initial-scale=1, maximum-scale=1&amp;#34;&amp;gt; 控制为物理宽度的一倍。然后
+html { font-size: 100px; } body { font-size: .14rem; } .box { height: .16rem; } rem属性指的是相对于根元素设置某个元素的字体大小。这些我们只要用js或者css的“媒体查询”控制了根元素的字体大小就很好的适应不同宽度的手机。具体选哪一种可以根据实际情况选择。
+js控制根元素字体 在&amp;lt;head&amp;gt;里添加这段js代码
+手机淘宝解决方案 这段代码摘自https://main.m.taobao.com/
+!function(e, t) { var n = t.documentElement , d = e.devicePixelRatio || 1; function i() { var e = n.clientWidth / 3.75; n.style.fontSize = e + &amp;#34;px&amp;#34; } if (function e() { t.body ? t.body.style.fontSize = &amp;#34;16px&amp;#34; : t.addEventListener(&amp;#34;DOMContentLoaded&amp;#34;, e) }(), i(), e.</description>
+    </item>
     
-	<atom:link href="https://kang-lyk.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>节流（throttle）与防抖（debounce）</title>
+      <link>https://kang-lyk.github.io/blog/post/2021/0205/</link>
+      <pubDate>Mon, 17 May 2021 15:28:17 +0800</pubDate>
+      
+      <guid>https://kang-lyk.github.io/blog/post/2021/0205/</guid>
+      <description>场景 因频繁执行DOM操作，资源加载等行为，导致UI停顿，如：onresize、onscroll、mousemove、mousedown、keydown，文字输入input等事件。
+比如每次搜索一下就会向服务器发送一个请求，这样既没有意义，也很浪费资源。
+解决方案 实际需求大多为停止改变大小n毫秒后执行后续处理；而其他事件大多数的需求是以一定的频率执行后续处理。针对这两种需求出现了debounce（函数去抖）和throttle（函数节流）两种方式。
+节流与防抖： 节流
+节流就是控制水的流量。就比如一个持续流水的水龙头，水龙头开到最大的时候很浪费水资源，将水龙头开得小一点，让他每隔300毫秒流出一滴水。而节流就是每隔n的时间调用一次函数，而不是一触发事件就调用一次，这样就会减少资源浪费，比如onscro事件中做图片懒加载。
+防抖 A和B说话，A一直bbbbbb，当A持续说了一段时间的话后停止讲话，过了10秒之后，我们判定A讲完了，B开始回答A的话；如果10秒内A又继续讲话，那么我们判定A没讲完，B不响应，等A再次停止后，我们再次计算停止的时间，如果超过10秒B响应，如果没有则B不响应。应用场景如百度的搜索
+节流与防抖的区别 节流与防抖的前提都是某个行为持续地触发，不同之处只要判断是要优化到减少它的执行次数还是只执行一次就行。
+ 节流例子，像dom的拖拽，如果用消抖的话，就会出现卡顿的感觉，因为只在停止的时候执行了一次，这个时候就应该用节流，在一定时间内多次执行，会流畅很多。 防抖例子，像仿百度搜索，就应该用防抖，当我连续不断输入时，不会发送请求；当我一段时间内不输入了，才会发送一次请求；如果小于这段时间继续输入的话，时间会重新计算，也不会发送请求。  debounce（防抖） 防抖分为立即防抖和非立即防抖 最常见的例子就是：搜索
+非立即防抖：触发事件后函数不会立即执行，而是在n秒之后执行，如果n秒之内又触发了事件，则会重新计算函数执行时间。 立即防抖：触发事件后函数会立即执行，然后n秒内不触发事件才会执行函数的效果
+非立即防抖
+在wait参数指定的时间之后执行
+function debounce(func, wait) { timeout = null; return function () { const context = this; const args = arguments; timeout &amp;amp;&amp;amp; clearTimeout(timeout); timeout = setTimeout(function () { func.apply(context, args) }, wait); } } 立即防抖
+立即执行，但在wait参数指定的时间内不会再执行。
+function debounce(func, wait) { let timeout = null; return function () { if (timeout) clearTimeout(timeout); const callNow = !</description>
+    </item>
     
     <item>
       <title>mock.js&#43;koa2作一个简单的mockServe</title>
@@ -70,8 +102,7 @@ nrm add myNpm http://192.168.3.112:4873 nrm use myNpm 注册帐号，依次输�
 npm adduser 登录,输入用户名密码
 npm login 发布包，在项目的根目录运行
 npm publish 如果没有修改源可以修改项目根目录的package.josn文件
-{ &amp;#34;publishConfig&amp;#34;: { &amp;#34;registry&amp;#34;: &amp;#34;http://192.168.3.112:4873&amp;#34; } } 配置 在启动verdaccio时会打印出一些信息，基中包含配置文件地址
-$&amp;gt; verdaccio warn --- config file - /home/.</description>
+{ &amp;#34;publishConfig&amp;#34;: { &amp;#34;registry&amp;#34;: &amp;#34;http://192.168.3.112:4873&amp;#34; } } 配置 在启动verdaccio时会打印出一些信息，基中包含配置文件地址</description>
     </item>
     
     <item>
@@ -85,28 +116,6 @@ Babel 是一个工具链，主要用于在旧的浏览器或环境中将 ECMAScr
 新建项目 npm init 依次输入项目名、版本号等信息就会生成一个package.json文件
 { &amp;#34;name&amp;#34;: &amp;#34;lyk_countdown&amp;#34;, &amp;#34;version&amp;#34;: &amp;#34;0.1.0&amp;#34;, &amp;#34;description&amp;#34;: &amp;#34;倒计时组件&amp;#34;, &amp;#34;keywords&amp;#34;: [&amp;#34;countdown&amp;#34;, &amp;#34;倒计时&amp;#34;], &amp;#34;scripts&amp;#34;: {}, &amp;#34;author&amp;#34;: &amp;#34;luyongkang&amp;#34;, &amp;#34;devDependencies&amp;#34;: {}, &amp;#34;dependencies&amp;#34;: {}, &amp;#34;license&amp;#34;: &amp;#34;ISC&amp;#34; } packag.json文件主要属性：
  version 表明了当前的版本。 name 设置了应用程序/软件包的名称。 description 是应用程序/软件包的简短描述。 main 设置了应用程序的入口点。 scripts 定义了一组可以运行的 node 脚本。 dependencies 设置了作为依赖安装的 npm 软件包的列表。 devDependencies 设置了作为开发依赖安装的 npm 软件包的列表。 engines 设置了此软件包/应用程序在哪个版本的 Node.js 上运行。  &amp;#34;engines&amp;#34;: { &amp;#34;node&amp;#34;: &amp;#34;&amp;gt;= 6.0.0&amp;#34;, &amp;#34;npm&amp;#34;: &amp;#34;&amp;gt;= 3.0.0&amp;#34;, &amp;#34;yarn&amp;#34;: &amp;#34;^0.</description>
-    </item>
-    
-    <item>
-      <title>节流（throttle）与防抖（debounce）</title>
-      <link>https://kang-lyk.github.io/blog/post/2021/0205/</link>
-      <pubDate>Sun, 17 May 2020 15:28:17 +0800</pubDate>
-      
-      <guid>https://kang-lyk.github.io/blog/post/2021/0205/</guid>
-      <description>场景 因频繁执行DOM操作，资源加载等行为，导致UI停顿，如：onresize、onscroll、mousemove、mousedown、keydown，文字输入input等事件。
-比如每次搜索一下就会向服务器发送一个请求，这样既没有意义，也很浪费资源。
-解决方案 实际需求大多为停止改变大小n毫秒后执行后续处理；而其他事件大多数的需求是以一定的频率执行后续处理。针对这两种需求出现了debounce（函数去抖）和throttle（函数节流）两种方式。
-节流与防抖： 节流
-节流就是控制水的流量。就比如一个持续流水的水龙头，水龙头开到最大的时候很浪费水资源，将水龙头开得小一点，让他每隔300毫秒流出一滴水。而节流就是每隔n的时间调用一次函数，而不是一触发事件就调用一次，这样就会减少资源浪费，比如onscro事件中做图片懒加载。
-防抖 A和B说话，A一直bbbbbb，当A持续说了一段时间的话后停止讲话，过了10秒之后，我们判定A讲完了，B开始回答A的话；如果10秒内A又继续讲话，那么我们判定A没讲完，B不响应，等A再次停止后，我们再次计算停止的时间，如果超过10秒B响应，如果没有则B不响应。应用场景如百度的搜索
-节流与防抖的区别 节流与防抖的前提都是某个行为持续地触发，不同之处只要判断是要优化到减少它的执行次数还是只执行一次就行。
- 节流例子，像dom的拖拽，如果用消抖的话，就会出现卡顿的感觉，因为只在停止的时候执行了一次，这个时候就应该用节流，在一定时间内多次执行，会流畅很多。 防抖例子，像仿百度搜索，就应该用防抖，当我连续不断输入时，不会发送请求；当我一段时间内不输入了，才会发送一次请求；如果小于这段时间继续输入的话，时间会重新计算，也不会发送请求。  debounce（防抖） 防抖分为立即防抖和非立即防抖 最常见的例子就是：搜索
-非立即防抖：触发事件后函数不会立即执行，而是在n秒之后执行，如果n秒之内又触发了事件，则会重新计算函数执行时间。 立即防抖：触发事件后函数会立即执行，然后n秒内不触发事件才会执行函数的效果
-非立即防抖
-在wait参数指定的时间之后执行
-function debounce(func, wait) { timeout = null; return function () { const context = this; const args = arguments; timeout &amp;amp;&amp;amp; clearTimeout(timeout); timeout = setTimeout(function () { func.apply(context, args) }, wait); } } 立即防抖
-立即执行，但在wait参数指定的时间内不会再执行。
-function debounce(func, wait) { let timeout = null; return function () { if (timeout) clearTimeout(timeout); const callNow = !</description>
     </item>
     
     <item>
